@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Create Account — Nara Jewellery{% endblock %}
+
+{% block content %}
+<div style="background: var(--cream); padding: 40px 0;">
+  <div class="container">
+    <div class="auth-card">
+
+      <!-- Header -->
+      <p class="sec-label">Join Nara</p>
+      <h2>Create Your Account</h2>
+      <p class="subtitle">
+        Register to save favourites and request home visits.
+      </p>
+
+      <!-- Form -->
+      <form method="POST" class="luxury-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+          <div class="mb-4">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              <div style="color: #c62828;
+                          font-size: 0.75rem;
+                          margin-top: 4px;">
+                {{ field.errors.0 }}
+              </div>
+            {% endif %}
+            {% if field.help_text %}
+              <div style="font-size: 0.72rem;
+                          color: var(--muted);
+                          margin-top: 4px;
+                          line-height: 1.5;">
+                {{ field.help_text }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit"
+                class="btn-gold w-100 mt-2"
+                style="padding: 13px; font-size: 0.72rem;">
+          Create Account
+        </button>
+      </form>
+
+      <p style="text-align: center;
+                margin-top: 24px;
+                font-size: 0.82rem;
+                color: var(--muted);">
+        Already have an account?
+        <a href="{% url 'users:login' %}"
+           style="color: var(--gold);
+                  font-weight: 700;
+                  text-decoration: none;">
+          Login
+        </a>
+      </p>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,192 @@
+/* ══════════════════════════════════════
+   NARA JEWELLERY — Custom Stylesheet
+══════════════════════════════════════ */
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 10px;
+}
+
+/* ── Selection highlight ── */
+::selection {
+  background: #d4af37;
+  color: #1a1a2e;
+}
+
+/* ── Smooth scroll ── */
+html { scroll-behavior: smooth; }
+
+/* ── Gold ticker animation ── */
+#gold-ticker {
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+}
+
+/* ── Navbar active link ── */
+.nav-link.active {
+  color: #d4af37 !important;
+  font-weight: 700;
+}
+
+/* ── Buttons ── */
+.btn-gold {
+  background-color: #d4af37;
+  color: #1a1a2e;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.btn-gold:hover {
+  background-color: #b8962e;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212,175,55,0.4);
+}
+
+/* ── Product Cards ── */
+.product-card {
+  border-radius: 14px !important;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.12) !important;
+}
+.product-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.product-card:hover .product-img {
+  transform: scale(1.05);
+}
+.product-img-placeholder {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #f8f4ee, #f0e6c8);
+}
+
+/* ── Wishlist heart button ── */
+.wishlist-btn {
+  transition: transform 0.2s ease;
+}
+.wishlist-btn:hover {
+  transform: scale(1.15);
+}
+
+/* ── Auth card ── */
+.auth-card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  padding: 44px;
+  max-width: 460px;
+  margin: 60px auto;
+}
+
+/* ── Form controls ── */
+.form-control:focus,
+.form-select:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.18);
+}
+
+/* ── Badges ── */
+.badge-gold {
+  background: #fff3cd;
+  color: #856404;
+  font-size: .75rem;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+/* ── Section headings ── */
+.section-title {
+  font-weight: 800;
+  color: #1a1a2e;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 48px; height: 3px;
+  background: #d4af37;
+  border-radius: 2px;
+}
+
+/* ── Hero section ── */
+.hero-section {
+  background: linear-gradient(135deg, #1a1a2e 60%, #2d1b69 100%);
+  padding: 100px 0 80px;
+}
+
+/* ── Toast ── */
+#wishlist-toast {
+  border-left: 4px solid #d4af37;
+}
+
+/* ── Footer ── */
+footer {
+  background: #1a1a2e;
+  color: #aaa;
+  text-align: center;
+  padding: 28px 0;
+  font-size: .88rem;
+}
+footer span { color: #d4af37; }
+footer a {
+  color: #d4af37;
+  text-decoration: none;
+}
+footer a:hover { color: #fff; }
+
+/* ── Responsive ── */
+@media (max-width: 576px) {
+  .auth-card {
+    padding: 28px 20px;
+    margin: 30px auto;
+  }
+  .product-img { height: 170px; }
+  .product-img-placeholder { height: 170px; }
+  .hero-section { padding: 60px 0 50px; }
+}
+
+/* ── Page fade-in animation ── */
+main {
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Back to top button ── */
+#back-to-top {
+  position: fixed;
+  bottom: 80px;
+  right: 24px;
+  background: #d4af37;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: none;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+}
+#back-to-top:hover {
+  background: #b8962e;
+  transform: translateY(-2px);
+}

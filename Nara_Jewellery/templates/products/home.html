@@ -1,0 +1,1788 @@
+{% extends 'base.html' %}
+{% load product_filters %}
+{% block title %}Nara Jewellery — Pure Gold. Personal Service.{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 1: HERO
+     ═══════════════════════════════════════════════════════════
+     
+     This is the big striking section at the top.
+     - Dark navy background with gradient
+     - Large heading with serif font
+     - Trust stats on the left
+     - Floating decorative circles on the right
+     - Call-to-action buttons
+     
+     WHY: First impression. Tells visitors immediately what we do.
+-->
+<section style="background: linear-gradient(135deg, #0D1B2A 0%, #1B2E42 100%);
+                color: #fff;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                position: relative;
+                overflow: hidden;"
+         id="hero">
+
+  <!-- Background decorative circles -->
+  <div style="position: absolute;
+              right: -150px;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 500px;
+              height: 500px;
+              border-radius: 50%;
+              border: 1px solid rgba(201,168,76,0.1);">
+  </div>
+  <div style="position: absolute;
+              right: -80px;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 350px;
+              height: 350px;
+              border-radius: 50%;
+              border: 1px solid rgba(201,168,76,0.05);">
+  </div>
+
+  <div class="container" style="position: relative; z-index: 2;">
+    <div class="row align-items-center g-5">
+
+      <!-- Left: Heading + Description + Buttons -->
+      <div class="col-lg-6">
+        
+        <!-- Small label above heading -->
+        <p style="font-size: 0.68rem;
+                  font-weight: 700;
+                  letter-spacing: 5px;
+                  text-transform: uppercase;
+                  color: #C9A84C;
+                  margin-bottom: 16px;">
+          ✦ &nbsp; Est. 2024 &nbsp; ✦ &nbsp; BIS Hallmarked
+        </p>
+
+        <!-- Main heading -->
+        <h1 style="font-family: var(--serif);
+                   font-size: clamp(2.6rem, 5.5vw, 4.5rem);
+                   font-weight: 300;
+                   line-height: 1.15;
+                   margin-bottom: 20px;">
+          Where Gold
+          <em style="font-style: italic; color: #C9A84C;">Meets</em>
+          Your Doorstep
+        </h1>
+
+        <!-- Gold divider line -->
+        <div style="width: 60px;
+                    height: 1.5px;
+                    background: #C9A84C;
+                    margin: 20px 0 24px;"></div>
+
+        <!-- Description paragraph -->
+        <p style="font-size: 0.95rem;
+          color: rgba(255,255,255,0.65);
+          line-height: 1.9;
+          max-width: 480px;
+          margin-bottom: 32px;">
+        We bring certified, hallmarked gold jewellery
+        directly to your home across
+        <strong style="color: var(--gold);">Bangalore</strong>.
+        Browse our collection, request a live preview,
+        and our expert will visit you personally —
+        no pressure, pure luxury.
+      </p>
+
+        <!-- CTA Buttons -->
+        <div class="d-flex flex-wrap gap-3 mb-5">
+          <a href="{% url 'products:product_list' %}"
+             class="btn-gold"
+             style="padding: 13px 32px; font-size: 0.7rem;">
+            Explore Collection
+          </a>
+          <a href="https://wa.me/919618148380?text=Hi! I'm interested in your jewellery. I'd like to schedule a home visit."
+             target="_blank"
+             class="btn-wa"
+             style="padding: 13px 28px; font-size: 0.7rem;">
+            <i class="bi bi-whatsapp"></i> Book Home Visit
+          </a>
+        </div>
+
+        <!-- Trust Stats Row -->
+        <div style="display: flex;
+                    flex-wrap: wrap;
+                    gap: 32px;
+                    border-top: 1px solid rgba(255,255,255,0.1);
+                    padding-top: 28px;">
+          {% for label, value in trust_stats %}
+            <div>
+              <div style="font-family: var(--serif);
+                          font-size: 1.8rem;
+                          font-weight: 600;
+                          color: #C9A84C;
+                          margin-bottom: 2px;">
+                {{ value }}
+              </div>
+              <div style="font-size: 0.65rem;
+                          font-weight: 700;
+                          letter-spacing: 2px;
+                          text-transform: uppercase;
+                          color: rgba(255,255,255,0.35);">
+                {{ label }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+      </div><!-- end left col -->
+
+      <!-- Right: Decorative circle (desktop only) -->
+      <div class="col-lg-6 d-none d-lg-block text-center">
+        <div style="position: relative;
+                    display: inline-block;
+                    width: 380px;
+                    height: 380px;
+                    border-radius: 50%;
+                    background: linear-gradient(135deg,
+                                 rgba(201,168,76,0.15),
+                                 rgba(201,168,76,0.05));
+                    border: 1px solid rgba(201,168,76,0.3);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;">
+
+          <div style="text-align: center;">
+            <div style="font-size: 5rem; margin-bottom: 12px;">💎</div>
+            <div style="font-family: var(--serif);
+                        font-size: 1.4rem;
+                        color: #C9A84C;
+                        font-weight: 300;
+                        letter-spacing: 3px;
+                        margin-bottom: 8px;">
+              PURE GOLD
+            </div>
+            <div style="font-size: 0.65rem;
+                        letter-spacing: 4px;
+                        color: rgba(255,255,255,0.3);
+                        text-transform: uppercase;">
+              BIS Certified ✦ Hallmarked
+            </div>
+          </div>
+
+        </div>
+      </div><!-- end right col -->
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 2: HOW IT WORKS
+     ═══════════════════════════════════════════════════════════
+     
+     4 steps showing the process.
+     Light cream background.
+     Simple numbered cards with hover effect.
+     
+     WHY: Removes customer anxiety. Shows it's easy and safe.
+-->
+<section style="background: #FAF7F2; padding: 80px 0;" id="how-it-works">
+  <div class="container">
+
+    <!-- Section header -->
+    <div style="text-align: center; margin-bottom: 60px;">
+      <p class="sec-label">Simple Process</p>
+      <h2 class="sec-title">How Nara Works</h2>
+      <div class="sec-divider"></div>
+      <p style="color: #7A7A7A;
+                max-width: 480px;
+                margin: 16px auto 0;
+                font-size: 0.88rem;
+                line-height: 1.8;">
+        No online checkout. No fraud risk.
+        We come to you personally with the jewellery.
+      </p>
+    </div>
+
+    <!-- 4-column grid of steps -->
+    <div class="row g-4">
+      {% for step in how_it_works %}
+        <div class="col-12 col-sm-6 col-lg-3">
+          <div style="text-align: center;
+                      padding: 32px 20px;
+                      background: #fff;
+                      border-bottom: 2px solid transparent;
+                      transition: all 0.3s ease;
+                      position: relative;
+                      cursor: pointer;"
+               onmouseover="this.style.borderBottomColor = '#C9A84C';
+                            this.style.transform = 'translateY(-6px)';
+                            this.style.boxShadow = '0 12px 32px rgba(0,0,0,0.1)';"
+               onmouseout="this.style.borderBottomColor = 'transparent';
+                           this.style.transform = 'translateY(0)';
+                           this.style.boxShadow = 'none';">
+
+            <!-- Step number in background -->
+            <div style="position: absolute;
+                        top: 16px;
+                        right: 16px;
+                        font-family: var(--serif);
+                        font-size: 3rem;
+                        font-weight: 700;
+                        color: rgba(201,168,76,0.1);
+                        line-height: 1;">
+              {{ forloop.counter }}
+            </div>
+
+            <!-- Icon -->
+            <div style="font-size: 2.4rem; margin-bottom: 16px;">
+              {{ step.icon }}
+            </div>
+
+            <!-- Title -->
+            <h5 style="font-family: var(--serif);
+                       font-size: 1.15rem;
+                       color: #0D1B2A;
+                       margin-bottom: 8px;
+                       font-weight: 600;">
+              {{ step.title }}
+            </h5>
+
+            <!-- Description -->
+            <p style="font-size: 0.82rem;
+                      color: #7A7A7A;
+                      line-height: 1.8;
+                      margin: 0;">
+              {{ step.desc }}
+            </p>
+
+          </div>
+        </div>
+      {% endfor %}
+    </div><!-- end grid -->
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     ABOUT THE OWNER
+═══════════════════════════════════════ -->
+<section style="background: #fff; padding: 80px 0;">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <!-- Left: Owner image placeholder -->
+      <div class="col-lg-4 text-center">
+        {% load static %}
+
+<!-- Owner image -->
+<div style="position: relative;
+            display: inline-block;">
+
+  <!-- Outer gold ring decoration -->
+  <div style="position: absolute;
+              inset: -6px;
+              border-radius: 50%;
+              border: 1.5px solid rgba(201,168,76,0.4);">
+  </div>
+
+  <!-- Owner photo -->
+  <img src="{% static 'images/image.png' %}"
+       alt="Owner — Nara Jewellery"
+       style="width: 260px;
+              height: 300px;
+              border-radius: 50%;
+              object-fit: cover;
+              object-position: center top;
+              border: 4px solid var(--gold-light);
+              display: block;">
+
+</div>
+        <div style="margin-top: 16px;">
+          <div style="font-family: var(--serif);
+                      font-size: 1.3rem;
+                      color: var(--navy);
+                      font-weight: 600;">
+            [Bojja]
+          </div>
+          <div style="font-size: 0.68rem;
+                      font-weight: 700;
+                      letter-spacing: 2px;
+                      text-transform: uppercase;
+                      color: var(--gold);
+                      margin-top: 4px;">
+            Founder, Nara Jewellery
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Story text -->
+      <div class="col-lg-8">
+        <p class="sec-label">Our Story</p>
+        <h2 class="sec-title">
+          A Family Tradition of<br>
+          <em style="font-style: italic;
+                     color: var(--gold);">Pure Gold</em>
+        </h2>
+        <div class="sec-divider left"></div>
+
+        <p style="color: var(--muted);
+                  font-size: 0.9rem;
+                  line-height: 1.9;
+                  margin: 20px 0 16px;">
+          For over 5 years, Nara Jewellery has been
+          serving families across Bangalore with
+          certified, hallmarked gold jewellery.
+          Our mission is simple — bring the jewellery
+          store experience to your living room,
+          with zero compromise on quality or trust.
+        </p>
+
+        <p style="color: var(--muted);
+                  font-size: 0.9rem;
+                  line-height: 1.9;
+                  margin-bottom: 28px;">
+          Every piece in our collection is personally
+          verified by our team before it reaches
+          your home. We believe that buying gold
+          should feel personal, not transactional.
+        </p>
+
+        <!-- Trust badges -->
+        <div class="d-flex flex-wrap gap-4">
+          <div style="text-align: center;">
+            <div style="font-family: var(--serif);
+                        font-size: 2rem;
+                        font-weight: 600;
+                        color: var(--gold);">
+              500+
+            </div>
+            <div style="font-size: 0.65rem;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: var(--muted);">
+              Happy Families
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-family: var(--serif);
+                        font-size: 2rem;
+                        font-weight: 600;
+                        color: var(--gold);">
+              5+
+            </div>
+            <div style="font-size: 0.65rem;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: var(--muted);">
+              Years of Trust
+            </div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-family: var(--serif);
+                        font-size: 2rem;
+                        font-weight: 600;
+                        color: var(--gold);">
+              100%
+            </div>
+            <div style="font-size: 0.65rem;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: var(--muted);">
+              BIS Certified
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 3: FEATURED COLLECTION
+     ═══════════════════════════════════════════════════════════
+     
+     Shows top 8 products in a grid.
+     Uses the product card component.
+     Light background, handpicked label.
+     
+     WHY: Visual showcase. Lets customers see actual pieces.
+-->
+<section style="background: #FAF7F2; padding: 80px 0;" id="collections">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-end mb-5 flex-wrap gap-3">
+      <div>
+        <p class="sec-label">Handpicked</p>
+        <h2 class="sec-title" style="margin-bottom: 0;">Featured Collection</h2>
+      </div>
+      <a href="{% url 'products:product_list' %}"
+         style="font-size: 0.73rem;
+                font-weight: 700;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: #C9A84C;
+                text-decoration: none;
+                border-bottom: 1px solid #C9A84C;
+                padding-bottom: 2px;">
+        View All →
+      </a>
+    </div>
+
+    <!-- Product grid -->
+    {% if featured_products %}
+      <div class="row g-4">
+        {% for product in featured_products %}
+          <div class="col-6 col-md-4 col-lg-3">
+            {% include 'products/_product_card.html' %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div style="text-align: center; padding: 80px 20px;
+                  border: 1px dashed rgba(201,168,76,0.3);">
+        <div style="font-size: 3rem; margin-bottom: 16px;">💎</div>
+        <p style="color: #7A7A7A; font-size: 0.88rem;">
+          Products will appear here. Add them from the admin panel.
+        </p>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 4: WHY CHOOSE NARA
+     ═══════════════════════════════════════════════════════════
+     
+     6 trust pillars in a grid.
+     Dark blue background.
+     Gold accent on top of each card.
+     
+     WHY: Builds confidence. Shows our competitive advantage.
+-->
+<section style="background: #0D1B2A; padding: 80px 0;" id="about">
+  <div class="container">
+
+    <!-- Header -->
+    <div style="text-align: center; margin-bottom: 60px;">
+      <p class="sec-label" style="color: #C9A84C;">Why Choose Us</p>
+      <h2 style="font-family: var(--serif);
+                 font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+                 font-weight: 400;
+                 color: #fff;
+                 line-height: 1.2;
+                 margin-bottom: 14px;">
+        Trust. Purity. Service.
+      </h2>
+      <div class="sec-divider"></div>
+    </div>
+
+    <!-- 6-column grid -->
+    <div class="row g-4">
+      {% for feature in why_choose_us %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <div style="background: rgba(255,255,255,0.03);
+                      border: 1px solid rgba(201,168,76,0.2);
+                      border-top: 2px solid #C9A84C;
+                      padding: 32px;
+                      transition: all 0.3s ease;
+                      height: 100%;"
+               onmouseover="this.style.background = 'rgba(255,255,255,0.06)';
+                            this.style.transform = 'translateY(-4px)';"
+               onmouseout="this.style.background = 'rgba(255,255,255,0.03)';
+                           this.style.transform = 'translateY(0)';">
+
+            <!-- Icon -->
+            <div style="font-size: 2rem; margin-bottom: 16px;">
+              {{ feature.icon }}
+            </div>
+
+            <!-- Title -->
+            <h5 style="font-family: var(--serif);
+                       font-size: 1.15rem;
+                       color: #fff;
+                       margin-bottom: 10px;
+                       font-weight: 600;">
+              {{ feature.title }}
+            </h5>
+
+            <!-- Description -->
+            <p style="font-size: 0.82rem;
+                      color: rgba(255,255,255,0.5);
+                      line-height: 1.8;
+                      margin: 0;">
+              {{ feature.desc }}
+            </p>
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 5: LIVE GOLD RATES
+     ═══════════════════════════════════════════════════════════
+     
+     Shows today's gold rates in 4 formats.
+     Dark navy background, gold accents.
+     Includes refresh button.
+     
+     WHY: Transparency. Customers see fair market pricing.
+-->
+<section style="background: #1B2E42; padding: 60px 0;" id="services">
+  <div class="container">
+
+    <div class="row align-items-center g-4">
+
+      <!-- Left: Label + Refresh -->
+      <div class="col-md-4">
+        <p class="sec-label" style="color: #C9A84C;">Updated Daily</p>
+        <h3 style="font-family: var(--serif);
+                   font-size: 2rem;
+                   color: #fff;
+                   font-weight: 600;
+                   margin-bottom: 4px;">
+          Live Gold Rate
+        </h3>
+        <p style="font-size: 0.8rem;
+                  color: rgba(255,255,255,0.35);
+                  margin-bottom: 18px;">
+          Transparent pricing. No hidden markup.
+        </p>
+        <button onclick="refreshGoldRate()"
+                style="background: transparent;
+                       border: 1px solid rgba(201,168,76,0.4);
+                       color: #C9A84C;
+                       padding: 8px 18px;
+                       font-size: 0.65rem;
+                       font-weight: 700;
+                       letter-spacing: 2px;
+                       text-transform: uppercase;
+                       cursor: pointer;
+                       transition: all 0.2s;">
+          <i class="bi bi-arrow-clockwise" id="refresh-icon"></i> Refresh Rate
+        </button>
+      </div>
+
+      <!-- Right: Rate cards -->
+      <div class="col-md-8">
+        <div class="row g-3">
+          {% for card in gold_cards %}
+            <div class="col-6 col-md-3">
+              <div style="border: 1px solid rgba(201,168,76,0.2);
+                          padding: 18px;
+                          text-align: center;">
+                <div style="font-size: 0.62rem;
+                            font-weight: 700;
+                            letter-spacing: 2px;
+                            text-transform: uppercase;
+                            color: #C9A84C;
+                            margin-bottom: 8px;">
+                  {{ card.label }}
+                </div>
+                <div id="{{ card.id }}"
+                     style="font-family: var(--serif);
+                            font-size: 1.35rem;
+                            color: #fff;
+                            font-weight: 600;">
+                  {% if gold_data %}
+                    ₹{{ card.value }}
+                  {% else %}
+                    —
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <p style="font-size: 0.68rem;
+                  color: rgba(255,255,255,0.2);
+                  margin-top: 12px;
+                  text-align: right;">
+          <span id="home-rate-source"></span> · <span id="home-rate-time"></span>
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 6: CUSTOMER TESTIMONIALS
+     ═══════════════════════════════════════════════════════════
+<!-- ═══════════════════════════════════════
+     TESTIMONIALS — Auto scrolling cards
+═══════════════════════════════════════ -->
+<section style="background: #0D1B2A;
+                padding: 80px 0;
+                overflow: hidden;">
+  <div class="container">
+    <div style="text-align: center; margin-bottom: 50px;">
+      <p class="sec-label" style="color: var(--gold);">
+        What Our Clients Say
+      </p>
+      <h2 style="font-family: var(--serif);
+                 font-size: 2.4rem;
+                 color: #fff;
+                 font-weight: 400;">
+        Real Stories. Real Gold.
+      </h2>
+      <div class="sec-divider"></div>
+    </div>
+  </div>
+
+  <!--
+    Scrolling track — sits outside container
+    so cards go edge to edge.
+    Duplicated cards for seamless infinite loop.
+  -->
+  <div style="position: relative; overflow: hidden;">
+
+    <!-- Fade edges left and right -->
+    <div style="position: absolute;
+                left: 0; top: 0; bottom: 0;
+                width: 120px;
+                background: linear-gradient(
+                  to right,
+                  #0D1B2A,
+                  transparent
+                );
+                z-index: 2;
+                pointer-events: none;"></div>
+    <div style="position: absolute;
+                right: 0; top: 0; bottom: 0;
+                width: 120px;
+                background: linear-gradient(
+                  to left,
+                  #0D1B2A,
+                  transparent
+                );
+                z-index: 2;
+                pointer-events: none;"></div>
+
+    <!-- Scrolling track -->
+    <div id="testimonial-track"
+         style="display: flex;
+                gap: 24px;
+                width: max-content;
+                animation: scrollLeft 30s linear infinite;
+                padding: 10px 0 20px;">
+
+      <!-- Original cards -->
+      {% for t in testimonials %}
+        <div style="width: 340px;
+                    flex-shrink: 0;
+                    border: 1px solid rgba(201,168,76,0.2);
+                    padding: 32px;
+                    position: relative;
+                    background: rgba(255,255,255,0.02);"
+             onmouseover="document.getElementById('testimonial-track').style.animationPlayState='paused'"
+             onmouseout="document.getElementById('testimonial-track').style.animationPlayState='running'">
+
+          <!-- Quote mark -->
+          <div style="font-family: var(--serif);
+                      font-size: 5rem;
+                      color: rgba(201,168,76,0.12);
+                      position: absolute;
+                      top: 10px;
+                      left: 20px;
+                      line-height: 1;">
+            "
+          </div>
+
+          <!-- Stars -->
+          <div style="color: var(--gold);
+                      font-size: 0.85rem;
+                      margin-bottom: 14px;
+                      padding-top: 16px;">
+            ★★★★★
+          </div>
+
+          <!-- Review -->
+          <p style="color: rgba(255,255,255,0.7);
+                    font-size: 0.86rem;
+                    line-height: 1.8;
+                    font-style: italic;
+                    margin-bottom: 24px;
+                    min-height: 100px;">
+            "{{ t.text }}"
+          </p>
+
+          <!-- Reviewer -->
+          <div style="border-top: 1px solid rgba(255,255,255,0.08);
+                      padding-top: 16px;
+                      display: flex;
+                      align-items: center;
+                      gap: 12px;">
+
+            <!-- Avatar circle -->
+            <div style="width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: rgba(201,168,76,0.2);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;">
+              <span style="font-family: var(--serif);
+                           font-size: 1.1rem;
+                           color: var(--gold);
+                           font-weight: 600;">
+                {{ t.name|first }}
+              </span>
+            </div>
+
+            <div>
+              <div style="font-family: var(--serif);
+                          font-size: 1rem;
+                          color: var(--gold);
+                          font-weight: 600;">
+                {{ t.name }}
+              </div>
+              <div style="font-size: 0.68rem;
+                          color: rgba(255,255,255,0.3);
+                          letter-spacing: 1px;
+                          text-transform: uppercase;
+                          margin-top: 2px;">
+                {{ t.city }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      {% endfor %}
+
+      <!-- Duplicate cards for seamless loop -->
+      {% for t in testimonials %}
+        <div style="width: 340px;
+                    flex-shrink: 0;
+                    border: 1px solid rgba(201,168,76,0.2);
+                    padding: 32px;
+                    position: relative;
+                    background: rgba(255,255,255,0.02);"
+             onmouseover="document.getElementById('testimonial-track').style.animationPlayState='paused'"
+             onmouseout="document.getElementById('testimonial-track').style.animationPlayState='running'">
+
+          <div style="font-family: var(--serif);
+                      font-size: 5rem;
+                      color: rgba(201,168,76,0.12);
+                      position: absolute;
+                      top: 10px;
+                      left: 20px;
+                      line-height: 1;">
+            "
+          </div>
+
+          <div style="color: var(--gold);
+                      font-size: 0.85rem;
+                      margin-bottom: 14px;
+                      padding-top: 16px;">
+            ★★★★★
+          </div>
+
+          <p style="color: rgba(255,255,255,0.7);
+                    font-size: 0.86rem;
+                    line-height: 1.8;
+                    font-style: italic;
+                    margin-bottom: 24px;
+                    min-height: 100px;">
+            "{{ t.text }}"
+          </p>
+
+          <div style="border-top: 1px solid rgba(255,255,255,0.08);
+                      padding-top: 16px;
+                      display: flex;
+                      align-items: center;
+                      gap: 12px;">
+            <div style="width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: rgba(201,168,76,0.2);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-shrink: 0;">
+              <span style="font-family: var(--serif);
+                           font-size: 1.1rem;
+                           color: var(--gold);
+                           font-weight: 600;">
+                {{ t.name|first }}
+              </span>
+            </div>
+            <div>
+              <div style="font-family: var(--serif);
+                          font-size: 1rem;
+                          color: var(--gold);
+                          font-weight: 600;">
+                {{ t.name }}
+              </div>
+              <div style="font-size: 0.68rem;
+                          color: rgba(255,255,255,0.3);
+                          letter-spacing: 1px;
+                          text-transform: uppercase;
+                          margin-top: 2px;">
+                {{ t.city }}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+
+</section>
+
+<!-- Scroll animation -->
+<style>
+  @keyframes scrollLeft {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+</style>
+   
+
+<!-- ═══════════════════════════════════════
+     INSTAGRAM SECTION
+     Clean dark version — no broken boxes.
+     Focuses on the CTA, not fake images.
+═══════════════════════════════════════ -->
+<section style="background: var(--navy); padding: 70px 0;">
+  <div class="container">
+
+    <div class="row align-items-center g-5">
+
+      <!-- Left: Text + CTA -->
+      <div class="col-lg-5">
+        <p class="sec-label" style="color: var(--gold);">
+          Stay Connected
+        </p>
+        <h3 style="font-family: var(--serif);
+                   font-size: clamp(1.8rem, 3vw, 2.5rem);
+                   color: #fff;
+                   font-weight: 300;
+                   line-height: 1.3;
+                   margin-bottom: 16px;">
+          See Our Latest
+          <em style="color: var(--gold);
+                     font-style: italic;">
+            Collection
+          </em>
+          on Instagram
+        </h3>
+
+        <div style="width: 48px;
+                    height: 1.5px;
+                    background: var(--gold);
+                    margin: 18px 0 20px;"></div>
+
+        <p style="color: rgba(255,255,255,0.5);
+                  font-size: 0.88rem;
+                  line-height: 1.8;
+                  margin-bottom: 28px;">
+          Follow us for daily jewellery inspiration,
+          behind-the-scenes craftsmanship, and
+          exclusive first looks at new arrivals.
+        </p>
+
+        <!-- Instagram handle + Follow button -->
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <a href="https://instagram.com/narajewellery"
+             target="_blank"
+             style="display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    background: linear-gradient(
+                      45deg,
+                      #f09433, #e6683c,
+                      #dc2743, #cc2366, #bc1888
+                    );
+                    color: #fff;
+                    padding: 12px 24px;
+                    font-size: 0.72rem;
+                    font-weight: 700;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    text-decoration: none;
+                    transition: opacity 0.2s;"
+             onmouseover="this.style.opacity='0.85'"
+             onmouseout="this.style.opacity='1'">
+            <i class="bi bi-instagram"
+               style="font-size: 1rem;"></i>
+            Follow Us
+          </a>
+          <span style="font-family: var(--serif);
+                       font-size: 1rem;
+                       color: rgba(255,255,255,0.4);">
+            @narajewellery
+          </span>
+        </div>
+
+      </div>
+
+      <!-- Right: 3 stylish feature cards -->
+      <div class="col-lg-7">
+        <div class="row g-3">
+
+          <!-- Card 1 -->
+          <div class="col-12 col-sm-4">
+            <div style="background: rgba(255,255,255,0.04);
+                        border: 1px solid rgba(201,168,76,0.2);
+                        padding: 28px 20px;
+                        text-align: center;
+                        transition: all 0.3s;"
+                 onmouseover="this.style.background='rgba(201,168,76,0.08)';
+                              this.style.transform='translateY(-4px)';"
+                 onmouseout="this.style.background='rgba(255,255,255,0.04)';
+                             this.style.transform='translateY(0)';">
+              <div style="font-size: 2rem;
+                          margin-bottom: 12px;">
+                💍
+              </div>
+              <div style="font-family: var(--serif);
+                          font-size: 1rem;
+                          color: #fff;
+                          font-weight: 600;
+                          margin-bottom: 6px;">
+                New Arrivals
+              </div>
+              <div style="font-size: 0.72rem;
+                          color: rgba(255,255,255,0.4);
+                          line-height: 1.6;">
+                First look at new pieces every week
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="col-12 col-sm-4">
+            <div style="background: rgba(201,168,76,0.1);
+                        border: 1px solid rgba(201,168,76,0.35);
+                        padding: 28px 20px;
+                        text-align: center;
+                        transition: all 0.3s;"
+                 onmouseover="this.style.background='rgba(201,168,76,0.18)';
+                              this.style.transform='translateY(-4px)';"
+                 onmouseout="this.style.background='rgba(201,168,76,0.1)';
+                             this.style.transform='translateY(0)';">
+              <div style="font-size: 2rem;
+                          margin-bottom: 12px;">
+                ✨
+              </div>
+              <div style="font-family: var(--serif);
+                          font-size: 1rem;
+                          color: var(--gold);
+                          font-weight: 600;
+                          margin-bottom: 6px;">
+                Behind the Craft
+              </div>
+              <div style="font-size: 0.72rem;
+                          color: rgba(255,255,255,0.4);
+                          line-height: 1.6;">
+                How each piece is made by hand
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="col-12 col-sm-4">
+            <div style="background: rgba(255,255,255,0.04);
+                        border: 1px solid rgba(201,168,76,0.2);
+                        padding: 28px 20px;
+                        text-align: center;
+                        transition: all 0.3s;"
+                 onmouseover="this.style.background='rgba(201,168,76,0.08)';
+                              this.style.transform='translateY(-4px)';"
+                 onmouseout="this.style.background='rgba(255,255,255,0.04)';
+                             this.style.transform='translateY(0)';">
+              <div style="font-size: 2rem;
+                          margin-bottom: 12px;">
+                🏠
+              </div>
+              <div style="font-family: var(--serif);
+                          font-size: 1rem;
+                          color: #fff;
+                          font-weight: 600;
+                          margin-bottom: 6px;">
+                Happy Clients
+              </div>
+              <div style="font-size: 0.72rem;
+                          color: rgba(255,255,255,0.4);
+                          line-height: 1.6;">
+                Real home visits, real stories
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom: follower count strip -->
+        <div style="margin-top: 20px;
+                    border: 1px solid rgba(201,168,76,0.15);
+                    padding: 16px 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    gap: 12px;">
+          <div class="d-flex gap-4">
+            <div style="text-align: center;">
+              <div style="font-family: var(--serif);
+                          font-size: 1.4rem;
+                          color: var(--gold);
+                          font-weight: 600;">
+                2.4K
+              </div>
+              <div style="font-size: 0.62rem;
+                          color: rgba(255,255,255,0.35);
+                          letter-spacing: 1.5px;
+                          text-transform: uppercase;">
+                Followers
+              </div>
+            </div>
+            <div style="width: 1px;
+                        background: rgba(255,255,255,0.08);"></div>
+            <div style="text-align: center;">
+              <div style="font-family: var(--serif);
+                          font-size: 1.4rem;
+                          color: var(--gold);
+                          font-weight: 600;">
+                180+
+              </div>
+              <div style="font-size: 0.62rem;
+                          color: rgba(255,255,255,0.35);
+                          letter-spacing: 1.5px;
+                          text-transform: uppercase;">
+                Posts
+              </div>
+            </div>
+            <div style="width: 1px;
+                        background: rgba(255,255,255,0.08);"></div>
+            <div style="text-align: center;">
+              <div style="font-family: var(--serif);
+                          font-size: 1.4rem;
+                          color: var(--gold);
+                          font-weight: 600;">
+                4.9★
+              </div>
+              <div style="font-size: 0.62rem;
+                          color: rgba(255,255,255,0.35);
+                          letter-spacing: 1.5px;
+                          text-transform: uppercase;">
+                Rating
+              </div>
+            </div>
+          </div>
+          <a href="https://instagram.com/narajewellery"
+             target="_blank"
+             style="font-size: 0.68rem;
+                    font-weight: 700;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                    color: var(--gold);
+                    text-decoration: none;
+                    border-bottom: 1px solid rgba(201,168,76,0.4);
+                    padding-bottom: 2px;">
+            View Profile →
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     CUSTOMER JOURNEY STORY
+═══════════════════════════════════════ -->
+<section style="background: var(--cream); padding: 80px 0;">
+  <div class="container">
+
+    <div style="text-align: center; margin-bottom: 50px;">
+      <p class="sec-label">A Real Story</p>
+      <h2 class="sec-title">From Wishlist to Doorstep</h2>
+      <div class="sec-divider"></div>
+    </div>
+
+    <!-- Journey timeline -->
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        <!-- Step 1 -->
+        <div class="d-flex gap-4 mb-4">
+          <div style="flex-shrink: 0;
+                      width: 48px;
+                      height: 48px;
+                      background: var(--navy);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;">
+            <span style="font-family: var(--serif);
+                         color: var(--gold);
+                         font-size: 1.2rem;
+                         font-weight: 700;">
+              1
+            </span>
+          </div>
+          <div style="padding-top: 8px;">
+            <h6 style="font-family: var(--serif);
+                       font-size: 1.1rem;
+                       color: var(--navy);
+                       margin-bottom: 4px;">
+              Monday — Browsed Online
+            </h6>
+            <p style="font-size: 0.85rem;
+                      color: var(--muted);
+                      margin: 0;
+                      line-height: 1.8;">
+              Meena saved a gold necklace to her
+              wishlist while browsing from her office
+              in Indiranagar.
+            </p>
+          </div>
+        </div>
+
+        <!-- Connector line -->
+        <div style="width: 2px;
+                    height: 32px;
+                    background: rgba(201,168,76,0.3);
+                    margin-left: 23px;
+                    margin-bottom: 4px;">
+        </div>
+
+        <!-- Step 2 -->
+        <div class="d-flex gap-4 mb-4">
+          <div style="flex-shrink: 0;
+                      width: 48px;
+                      height: 48px;
+                      background: var(--navy);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;">
+            <span style="font-family: var(--serif);
+                         color: var(--gold);
+                         font-size: 1.2rem;
+                         font-weight: 700;">
+              2
+            </span>
+          </div>
+          <div style="padding-top: 8px;">
+            <h6 style="font-family: var(--serif);
+                       font-size: 1.1rem;
+                       color: var(--navy);
+                       margin-bottom: 4px;">
+              Tuesday — Requested Home Visit
+            </h6>
+            <p style="font-size: 0.85rem;
+                      color: var(--muted);
+                      margin: 0;
+                      line-height: 1.8;">
+              She clicked "Request Home Preview"
+              and filled the form. We called her
+              within 2 hours to confirm.
+            </p>
+          </div>
+        </div>
+
+        <!-- Connector line -->
+        <div style="width: 2px;
+                    height: 32px;
+                    background: rgba(201,168,76,0.3);
+                    margin-left: 23px;
+                    margin-bottom: 4px;">
+        </div>
+
+        <!-- Step 3 -->
+        <div class="d-flex gap-4 mb-4">
+          <div style="flex-shrink: 0;
+                      width: 48px;
+                      height: 48px;
+                      background: var(--navy);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;">
+            <span style="font-family: var(--serif);
+                         color: var(--gold);
+                         font-size: 1.2rem;
+                         font-weight: 700;">
+              3
+            </span>
+          </div>
+          <div style="padding-top: 8px;">
+            <h6 style="font-family: var(--serif);
+                       font-size: 1.1rem;
+                       color: var(--navy);
+                       margin-bottom: 4px;">
+              Wednesday — We Visited Her Home
+            </h6>
+            <p style="font-size: 0.85rem;
+                      color: var(--muted);
+                      margin: 0;
+                      line-height: 1.8;">
+              Our expert arrived at her home in
+              Indiranagar with the necklace and
+              4 similar designs. No pressure.
+              Just jewellery.
+            </p>
+          </div>
+        </div>
+
+        <!-- Connector line -->
+        <div style="width: 2px;
+                    height: 32px;
+                    background: rgba(201,168,76,0.3);
+                    margin-left: 23px;
+                    margin-bottom: 4px;">
+        </div>
+
+        <!-- Step 4 — Final -->
+        <div class="d-flex gap-4">
+          <div style="flex-shrink: 0;
+                      width: 48px;
+                      height: 48px;
+                      background: var(--gold);
+                      border-radius: 50%;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;">
+            <i class="bi bi-check-lg"
+               style="color: var(--navy);
+                      font-size: 1.2rem;
+                      font-weight: 700;"></i>
+          </div>
+          <div style="padding-top: 8px;">
+            <h6 style="font-family: var(--serif);
+                       font-size: 1.1rem;
+                       color: var(--navy);
+                       margin-bottom: 4px;">
+              Wednesday — She Bought It
+            </h6>
+            <p style="font-size: 0.85rem;
+                      color: var(--muted);
+                      margin: 0 0 16px;
+                      line-height: 1.8;">
+              Meena loved the necklace. Paid in cash.
+              Got the BIS certificate. The whole
+              process took less than 48 hours.
+            </p>
+            <!-- Quote -->
+            <div style="background: var(--cream-dark);
+                        border-left: 3px solid var(--gold);
+                        padding: 14px 18px;">
+              <p style="font-style: italic;
+                        font-size: 0.85rem;
+                        color: var(--charcoal);
+                        margin: 0;
+                        line-height: 1.8;">
+                "I never thought buying gold could
+                be this easy and trustworthy.
+                No online payment, no stress.
+                Just a beautiful experience."
+              </p>
+              <p style="font-size: 0.72rem;
+                        font-weight: 700;
+                        color: var(--gold);
+                        margin: 8px 0 0;
+                        letter-spacing: 1px;">
+                — Meena, Indiranagar, Bangalore
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CTA below story -->
+    <div style="text-align: center; margin-top: 48px;">
+      <p style="color: var(--muted);
+                font-size: 0.88rem;
+                margin-bottom: 20px;">
+        Your story could be next.
+      </p>
+      <a href="{% url 'products:product_list' %}"
+         class="btn-gold"
+         style="padding: 13px 36px;">
+        Start Browsing
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FAQ SECTION
+═══════════════════════════════════════ -->
+<section style="background: #fff; padding: 80px 0;">
+  <div class="container">
+
+    <div style="text-align: center; margin-bottom: 50px;">
+      <p class="sec-label">Got Questions?</p>
+      <h2 class="sec-title">Frequently Asked Questions</h2>
+      <div class="sec-divider"></div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        <!--
+          Bootstrap accordion.
+          Each question expands on click.
+          Only one open at a time.
+        -->
+        <div class="accordion" id="faqAccordion">
+
+          <!-- Q1 -->
+          <div style="border: 1px solid var(--cream-dark);
+                      margin-bottom: 8px;">
+            <button style="width: 100%;
+                           text-align: left;
+                           background: #fff;
+                           border: none;
+                           padding: 18px 20px;
+                           font-family: var(--serif);
+                           font-size: 1.05rem;
+                           color: var(--navy);
+                           font-weight: 600;
+                           cursor: pointer;
+                           display: flex;
+                           justify-content: space-between;
+                           align-items: center;"
+                    onclick="toggleFaq(this)">
+              Do you charge for the home visit?
+              <i class="bi bi-plus"
+                 style="color: var(--gold);
+                        font-size: 1.2rem;
+                        flex-shrink: 0;"></i>
+            </button>
+            <div style="display: none;
+                        padding: 0 20px 18px;
+                        font-size: 0.88rem;
+                        color: var(--muted);
+                        line-height: 1.8;">
+              No. Home visits are completely free of charge.
+              Our expert visits your home at a time convenient
+              to you. There is no booking fee or visit charge.
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div style="border: 1px solid var(--cream-dark);
+                      margin-bottom: 8px;">
+            <button style="width: 100%;
+                           text-align: left;
+                           background: #fff;
+                           border: none;
+                           padding: 18px 20px;
+                           font-family: var(--serif);
+                           font-size: 1.05rem;
+                           color: var(--navy);
+                           font-weight: 600;
+                           cursor: pointer;
+                           display: flex;
+                           justify-content: space-between;
+                           align-items: center;"
+                    onclick="toggleFaq(this)">
+              How do I know the gold is genuine?
+              <i class="bi bi-plus"
+                 style="color: var(--gold);
+                        font-size: 1.2rem;
+                        flex-shrink: 0;"></i>
+            </button>
+            <div style="display: none;
+                        padding: 0 20px 18px;
+                        font-size: 0.88rem;
+                        color: var(--muted);
+                        line-height: 1.8;">
+              Every piece in our collection carries a
+              BIS Hallmark — the Government of India's
+              official certification of gold purity.
+              You will receive an authenticity certificate
+              with every purchase.
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div style="border: 1px solid var(--cream-dark);
+                      margin-bottom: 8px;">
+            <button style="width: 100%;
+                           text-align: left;
+                           background: #fff;
+                           border: none;
+                           padding: 18px 20px;
+                           font-family: var(--serif);
+                           font-size: 1.05rem;
+                           color: var(--navy);
+                           font-weight: 600;
+                           cursor: pointer;
+                           display: flex;
+                           justify-content: space-between;
+                           align-items: center;"
+                    onclick="toggleFaq(this)">
+              What areas in Bangalore do you cover?
+              <i class="bi bi-plus"
+                 style="color: var(--gold);
+                        font-size: 1.2rem;
+                        flex-shrink: 0;"></i>
+            </button>
+            <div style="display: none;
+                        padding: 0 20px 18px;
+                        font-size: 0.88rem;
+                        color: var(--muted);
+                        line-height: 1.8;">
+              We cover all major areas across Bangalore
+              including Marathahalli, Whitefield, Indiranagar,
+              Koramangala, HSR Layout, Jayanagar, JP Nagar,
+              Electronic City, and more. Contact us to
+              confirm your area.
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div style="border: 1px solid var(--cream-dark);
+                      margin-bottom: 8px;">
+            <button style="width: 100%;
+                           text-align: left;
+                           background: #fff;
+                           border: none;
+                           padding: 18px 20px;
+                           font-family: var(--serif);
+                           font-size: 1.05rem;
+                           color: var(--navy);
+                           font-weight: 600;
+                           cursor: pointer;
+                           display: flex;
+                           justify-content: space-between;
+                           align-items: center;"
+                    onclick="toggleFaq(this)">
+              Am I obligated to buy after the home visit?
+              <i class="bi bi-plus"
+                 style="color: var(--gold);
+                        font-size: 1.2rem;
+                        flex-shrink: 0;"></i>
+            </button>
+            <div style="display: none;
+                        padding: 0 20px 18px;
+                        font-size: 0.88rem;
+                        color: var(--muted);
+                        line-height: 1.8;">
+              Absolutely not. There is zero obligation.
+              Our expert visits, shows you the jewellery,
+              answers your questions, and leaves — whether
+              you buy or not. No pressure. Ever.
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div style="border: 1px solid var(--cream-dark);
+                      margin-bottom: 8px;">
+            <button style="width: 100%;
+                           text-align: left;
+                           background: #fff;
+                           border: none;
+                           padding: 18px 20px;
+                           font-family: var(--serif);
+                           font-size: 1.05rem;
+                           color: var(--navy);
+                           font-weight: 600;
+                           cursor: pointer;
+                           display: flex;
+                           justify-content: space-between;
+                           align-items: center;"
+                    onclick="toggleFaq(this)">
+              Do you accept online payment?
+              <i class="bi bi-plus"
+                 style="color: var(--gold);
+                        font-size: 1.2rem;
+                        flex-shrink: 0;"></i>
+            </button>
+            <div style="display: none;
+                        padding: 0 20px 18px;
+                        font-size: 0.88rem;
+                        color: var(--muted);
+                        line-height: 1.8;">
+              No. We deliberately do not accept
+              online payments. This protects you
+              from fraud completely. All payments
+              happen in person, face to face,
+              after you have seen and approved
+              the jewellery.
+            </div>
+          </div>
+
+          <!-- Q6 -->
+          <div style="border: 1px solid var(--cream-dark);">
+            <button style="width: 100%;
+                           text-align: left;
+                           background: #fff;
+                           border: none;
+                           padding: 18px 20px;
+                           font-family: var(--serif);
+                           font-size: 1.05rem;
+                           color: var(--navy);
+                           font-weight: 600;
+                           cursor: pointer;
+                           display: flex;
+                           justify-content: space-between;
+                           align-items: center;"
+                    onclick="toggleFaq(this)">
+              How quickly can you visit after I request?
+              <i class="bi bi-plus"
+                 style="color: var(--gold);
+                        font-size: 1.2rem;
+                        flex-shrink: 0;"></i>
+            </button>
+            <div style="display: none;
+                        padding: 0 20px 18px;
+                        font-size: 0.88rem;
+                        color: var(--muted);
+                        line-height: 1.8;">
+              We confirm your appointment within
+              2 hours of your request. Visits are
+              typically scheduled within 24 to 48 hours
+              at a time that suits you best.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ toggle JavaScript -->
+<script>
+  function toggleFaq(btn) {
+    const answer  = btn.nextElementSibling;
+    const icon    = btn.querySelector('i');
+    const isOpen  = answer.style.display === 'block';
+
+    // Close all open FAQs first
+    document.querySelectorAll('#faqAccordion > div').forEach(item => {
+      item.querySelector('div').style.display = 'none';
+      item.querySelector('i').className = 'bi bi-plus';
+      item.querySelector('i').style.color = 'var(--gold)';
+    });
+
+    // Open clicked one if it was closed
+    if (!isOpen) {
+      answer.style.display = 'block';
+      icon.className = 'bi bi-dash';
+    }
+  }
+</script>
+
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 7: CONTACT
+═══════════════════════════════════════════════ -->
+<section style="background: var(--cream-dark); padding: 80px 0;"
+         id="contact">
+  <div class="container">
+
+    <div class="row g-5 align-items-start">
+
+      <!-- Left: CTA text + buttons -->
+      <div class="col-lg-6">
+        <p class="sec-label">Get In Touch</p>
+        <h2 class="sec-title">Ready to Explore?</h2>
+        <div class="sec-divider left"></div>
+
+        <p style="color: var(--muted);
+                  font-size: 0.88rem;
+                  line-height: 1.9;
+                  margin: 18px 0 28px;">
+          Browse our collection online, save your favourites,
+          then contact us to schedule a free home preview.
+          Our jewellery expert visits at a time convenient to you.
+        </p>
+
+        <div class="d-flex flex-column gap-3">
+          <a href="{% url 'products:product_list' %}"
+             class="btn-gold"
+             style="width: fit-content; padding: 13px 32px;">
+            Browse Collection
+          </a>
+
+          <a href="https://wa.me/919618148380?text=Hi! I'd like to schedule a home jewellery preview."
+             target="_blank"
+             class="btn-wa"
+             style="width: fit-content;">
+            <i class="bi bi-whatsapp"></i>
+            Chat on WhatsApp
+          </a>
+
+          <a href="tel:+919618148380"
+             style="font-size: 0.78rem;
+                    font-weight: 700;
+                    letter-spacing: 1.5px;
+                    text-transform: uppercase;
+                    color: var(--navy);
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;">
+            <i class="bi bi-telephone"
+               style="color: var(--gold);"></i>
+            +91 9618148380
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Address card -->
+      <div class="col-lg-6">
+        <div style="background: var(--navy); padding: 36px;">
+
+          <p style="font-size: 0.65rem;
+                    font-weight: 700;
+                    letter-spacing: 4px;
+                    text-transform: uppercase;
+                    color: var(--gold);
+                    margin-bottom: 24px;">
+            Find Us
+          </p>
+
+          <!-- Shop address -->
+          <div class="d-flex gap-3 mb-4">
+            <i class="bi bi-shop"
+               style="color: var(--gold);
+                      font-size: 1.2rem;
+                      flex-shrink: 0;
+                      margin-top: 2px;"></i>
+            <div>
+              <p style="font-family: var(--serif);
+                        font-size: 1rem;
+                        color: #fff;
+                        font-weight: 600;
+                        margin-bottom: 4px;">
+                Nara Jewellery Showroom
+              </p>
+              <p style="font-size: 0.82rem;
+                        color: rgba(255,255,255,0.5);
+                        line-height: 1.7;
+                        margin: 0;">
+                Marathahalli, Bangalore<br>
+                Karnataka — 560037<br>
+                India
+              </p>
+            </div>
+          </div>
+
+          <!-- Map link -->
+          <div class="d-flex gap-3 mb-4">
+            <i class="bi bi-geo-alt"
+               style="color: var(--gold);
+                      font-size: 1.1rem;
+                      flex-shrink: 0;
+                      margin-top: 2px;"></i>
+            <div>
+              <a href="https://maps.google.com/?q=Marathahalli,Bangalore"
+                 target="_blank"
+                 style="font-size: 0.78rem;
+                        font-weight: 700;
+                        letter-spacing: 1px;
+                        color: var(--gold);
+                        text-decoration: none;">
+                View on Google Maps →
+              </a>
+            </div>
+          </div>
+
+          <!-- Google Maps Embed -->
+          <div style="margin-top: 16px;
+                      overflow: hidden;
+                      border: 3px solid rgba(201,168,76,0.2);">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d25597.518065498683!2d77.69300849999998!3d12.957091250000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae13b4551d0957%3A0x597894d77e1e4919!2sMarathahalli%2C%20Bengaluru%2C%20Karnataka%20560037!5e1!3m2!1sen!2sin!4v1779041601113!5m2!1sen!2sin"
+              width="100%"
+              height="200" 
+              style="border:0; display:block;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+
+          <!-- Timings -->
+          <div class="d-flex gap-3 mb-4">
+            <i class="bi bi-clock"
+               style="color: var(--gold);
+                      font-size: 1.1rem;
+                      flex-shrink: 0;
+                      margin-top: 2px;"></i>
+            <div>
+              <p style="font-family: var(--serif);
+                        font-size: 1rem;
+                        color: #fff;
+                        font-weight: 600;
+                        margin-bottom: 4px;">
+                Showroom Hours
+              </p>
+              <p style="font-size: 0.82rem;
+                        color: rgba(255,255,255,0.5);
+                        line-height: 1.7;
+                        margin: 0;">
+                Monday – Saturday: 10AM to 7PM<br>
+                Sunday: By Appointment Only
+              </p>
+            </div>
+          </div>
+
+          <!-- Home visit note -->
+          <div style="border-top: 1px solid rgba(255,255,255,0.08);
+                      padding-top: 20px;
+                      margin-top: 4px;">
+            <div class="d-flex gap-3">
+              <i class="bi bi-house-check"
+                 style="color: var(--gold);
+                        font-size: 1.1rem;
+                        flex-shrink: 0;
+                        margin-top: 2px;"></i>
+              <div>
+                <p style="font-family: var(--serif);
+                          font-size: 1rem;
+                          color: #fff;
+                          font-weight: 600;
+                          margin-bottom: 4px;">
+                  Home Visit Service
+                </p>
+                <p style="font-size: 0.82rem;
+                          color: rgba(255,255,255,0.5);
+                          line-height: 1.7;
+                          margin: 0;">
+                  We visit homes across Bangalore.
+                  Free of charge. Schedule via WhatsApp.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

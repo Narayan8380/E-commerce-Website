@@ -1,0 +1,1697 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}Nara Jewellery — Pure Gold. Personal Service.{% endblock %}</title>
+
+  <!--
+    Google Fonts:
+    - Cormorant Garamond = luxury serif font for headings
+    - Montserrat = clean sans-serif for body text and nav
+    These two together give a premium jewellery brand feel.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+        content="Nara Jewellery — Premium BIS hallmarked gold jewellery with free home visit service in Bangalore. Browse rings, necklaces, earrings, and bracelets.">
+  <meta name="keywords"
+        content="gold jewellery bangalore, BIS hallmark, home visit jewellery, pure gold rings, necklaces, earrings">
+  <meta name="author" content="Nara Jewellery">
+  
+  <!-- Open Graph (for WhatsApp and social media previews) -->
+  <meta property="og:title"
+        content="Nara Jewellery — Pure Gold. Personal Service.">
+  <meta property="og:description"
+        content="BIS hallmarked gold jewellery delivered to your home. Free preview visit. No online payment.">
+  <meta property="og:type" content="website">
+  
+  <!-- Block level override for product pages -->
+  {% block meta_description %}{% endblock %}
+
+  <style>
+    /*
+      CSS VARIABLES
+      We define our brand colors once here.
+      Then use them everywhere as var(--gold) etc.
+      This makes it easy to change the theme later.
+    */
+    :root {
+      --gold:       #C9A84C;
+      --gold-light: #E8D5A3;
+      --gold-dark:  #9A7B2F;
+      --navy:       #0D1B2A;
+      --navy-mid:   #1B2E42;
+      --cream:      #FAF7F2;
+      --cream-dark: #F0E9DC;
+      --charcoal:   #2C2C2C;
+      --muted:      #7A7A7A;
+      --serif:      'Cormorant Garamond', Georgia, serif;
+      --sans:       'Montserrat', sans-serif;
+    }
+
+    /* ── Base reset ── */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--charcoal);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Custom scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--cream-dark); }
+    ::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    /* ── Text selection color ── */
+    ::selection {
+      background: var(--gold-light);
+      color: var(--navy);
+    }
+
+    /* ======================
+       GOLD TICKER BAR
+       This is the thin bar at the very top
+       showing live gold rates + phone number.
+    ====================== */
+    #gold-ticker {
+      background: var(--navy);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.75rem;
+      padding: 7px 0;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    #gold-ticker strong {
+      color: var(--gold);
+    }
+    #gold-ticker a {
+      color: var(--gold);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    #gold-ticker a:hover { opacity: 0.75; }
+
+    /* ======================
+       NAVBAR
+       Sticky white navbar with gold accents.
+       Stays at top when you scroll.
+    ====================== */
+    /* Smooth transition on all interactive elements */
+    a, button {
+      transition: all 0.2s ease;
+    }
+    
+    /* Slightly better card shadow on all jewel cards */
+    .jewel-card {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06) !important;
+    }
+
+    #main-navbar {
+      background: #fff;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+      padding: 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    }
+
+    /* Brand / Logo */
+    .navbar-brand-wrap {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      text-decoration: none;
+    }
+    .brand-name {
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 3px;
+    }
+    .brand-tagline {
+      font-family: var(--sans);
+      font-size: 0.55rem;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    /* Nav links */
+    .navbar-nav .nav-link {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--charcoal) !important;
+      padding: 28px 16px !important;
+      position: relative;
+      transition: color 0.25s;
+    }
+
+    /*
+      Underline animation on hover.
+      The ::after pseudo-element starts at width 0,
+      and expands to 100% on hover using transition.
+    */
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      transform: scaleX(1);
+    }
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+      color: var(--gold) !important;
+    }
+
+    /* Dropdown menu */
+    .navbar-nav .dropdown-menu {
+      border: none;
+      border-top: 2px solid var(--gold);
+      border-radius: 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      padding: 8px 0;
+      min-width: 180px;
+      margin-top: 0;
+    }
+    .navbar-nav .dropdown-item {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      padding: 10px 20px;
+      transition: all 0.2s;
+    }
+    .navbar-nav .dropdown-item:hover {
+      background: var(--cream);
+      color: var(--gold);
+      padding-left: 26px;
+    }
+
+    /* Dropdown arrow removed */
+    .dropdown-toggle::after { display: none; }
+    .dropdown-toggle .dd-arrow {
+      font-size: 0.6rem;
+      margin-left: 4px;
+      transition: transform 0.3s;
+      display: inline-block;
+    }
+    .dropdown-toggle.show .dd-arrow {
+      transform: rotate(180deg);
+    }
+
+    /* Wishlist count badge */
+    .wishlist-badge {
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 0.55rem;
+      font-weight: 800;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 20px;
+      right: 8px;
+    }
+
+    /* Nav right side buttons */
+    .nav-auth-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav-username {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+    .nav-username span { color: var(--gold); }
+
+    /* ======================
+       BUTTONS
+       We have 3 types:
+       - btn-gold: filled gold button
+       - btn-gold-outline: transparent with gold border
+       - btn-wa: WhatsApp green button
+    ====================== */
+    .btn-gold {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 11px 26px;
+      background: var(--gold);
+      color: var(--navy);
+      border: 1.5px solid var(--gold);
+      border-radius: 0;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-gold:hover {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--gold);
+      transform: translateY(-1px);
+    }
+    .btn-gold-outline {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+    }
+    .btn-gold-outline:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+    .btn-gold-sm {
+      padding: 8px 18px;
+      font-size: 0.65rem;
+    }
+    .btn-wa {
+      font-family: var(--sans);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 11px 22px;
+      background: #25D366;
+      color: #fff;
+      border: none;
+      border-radius: 0;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-wa:hover {
+      background: #1ebe5d;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ======================
+       SECTION HELPERS
+       Reusable classes for section titles,
+       labels, and dividers.
+    ====================== */
+    .sec-label {
+      font-family: var(--sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .sec-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .sec-divider {
+      width: 48px;
+      height: 1.5px;
+      background: var(--gold);
+      margin: 14px auto;
+    }
+    .sec-divider.left { margin-left: 0; }
+
+    /* ======================
+       PRODUCT CARDS
+    ====================== */
+    .jewel-card {
+      background: #fff;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+    }
+    .jewel-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1) !important;
+    }
+    .jewel-card-img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .jewel-card:hover .jewel-card-img {
+      transform: scale(1.05);
+    }
+    .jewel-card-placeholder {
+      width: 100%;
+      height: 260px;
+      background: linear-gradient(135deg, var(--cream-dark), var(--cream));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ======================
+       ALERTS (flash messages)
+    ====================== */
+    .alert {
+      border-radius: 0;
+      border: none;
+      border-left: 3px solid var(--gold);
+      font-size: 0.85rem;
+    }
+
+    /* ======================
+       LUXURY FORM INPUTS
+    ====================== */
+    .luxury-form .form-control,
+    .luxury-form .form-select,
+    .luxury-form textarea {
+      border-radius: 0;
+      border: none;
+      border-bottom: 1.5px solid #ddd;
+      background: transparent;
+      padding: 10px 4px;
+      font-size: 0.88rem;
+      font-family: var(--sans);
+      transition: border-color 0.2s;
+    }
+    .luxury-form .form-control:focus,
+    .luxury-form .form-select:focus,
+    .luxury-form textarea:focus {
+      border-color: var(--gold);
+      box-shadow: none;
+      background: transparent;
+      outline: none;
+    }
+    .luxury-form label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    /* ======================
+       AUTH CARD
+       Used on login/signup pages.
+    ====================== */
+    .auth-card {
+      background: #fff;
+      padding: 48px 44px;
+      max-width: 460px;
+      margin: 70px auto;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.07);
+    }
+    .auth-card h2 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .auth-card .subtitle {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 28px;
+    }
+
+    /* ======================
+       FOOTER
+    ====================== */
+    #main-footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.55);
+      padding: 64px 0 28px;
+    }
+    .footer-brand {
+      font-family: var(--serif);
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 3px;
+    }
+    .footer-tagline {
+      font-size: 0.62rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      margin-top: 4px;
+      margin-bottom: 18px;
+    }
+    .footer-heading {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-links li { margin-bottom: 10px; }
+    .footer-links a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      font-size: 0.83rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,168,76,0.35);
+      border-radius: 50%;
+      color: var(--gold);
+      font-size: 0.9rem;
+      text-decoration: none;
+      margin-right: 8px;
+      transition: all 0.25s;
+    }
+    .footer-social a:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+    .footer-divider {
+      border-color: rgba(255,255,255,0.07);
+      margin: 36px 0 20px;
+    }
+    .footer-bottom {
+      font-size: 0.73rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.5px;
+    }
+
+    /* ======================
+       BACK TO TOP BUTTON
+    ====================== */
+    #back-to-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 40px;
+      height: 40px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    #back-to-top:hover { background: var(--navy); color: var(--gold); }
+
+    /* ======================
+       PAGE FADE IN ANIMATION
+       Subtle animation when page loads.
+    ====================== */
+    main {
+      animation: fadeUp 0.4s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ======================
+       MOBILE RESPONSIVE
+    ====================== */
+    @media (max-width: 991px) {
+      .navbar-nav .nav-link {
+        padding: 12px 16px !important;
+      }
+      .navbar-nav .nav-link::after { display: none; }
+      .navbar-collapse {
+        border-top: 1px solid var(--cream-dark);
+        padding: 12px 0;
+      }
+      .navbar-nav .dropdown-menu {
+        box-shadow: none;
+        border-top: none;
+        padding-left: 16px;
+      }
+    }
+    @media (max-width: 576px) {
+      .auth-card { padding: 32px 22px; margin: 40px 16px; }
+      .jewel-card-img { height: 200px; }
+      .jewel-card-placeholder { height: 200px; }
+    }
+    
+    @media (max-width: 576px) {
+    /* Ticker bar hides phone number on mobile */
+    #gold-ticker .d-flex > a {
+      display: none !important;
+    }
+  
+    /* Bigger tap targets on mobile */
+    .nav-link {
+      padding: 14px 16px !important;
+      font-size: 0.85rem !important;
+    }
+
+    /* Product cards — single column on very small screens */
+    .jewel-card-img {
+      height: 180px;
+    }
+  }
+  </style>
+
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+  <!--
+  Page Loader
+  Shows for 1.5 seconds then fades out.
+  Clean and minimal — doesn't block user long.
+-->
+<div id="page-loader"
+     style="position: fixed;
+            inset: 0;
+            background: var(--navy);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease;">
+
+  <!-- Logo -->
+  <div style="text-align: center;">
+    <div style="font-family: var(--serif);
+                font-size: 3rem;
+                font-weight: 700;
+                color: var(--gold);
+                letter-spacing: 8px;
+                margin-bottom: 4px;
+                animation: loaderPulse 1.5s ease infinite;">
+      NARA
+    </div>
+    <div style="font-size: 0.6rem;
+                font-weight: 700;
+                letter-spacing: 5px;
+                text-transform: uppercase;
+                color: rgba(255,255,255,0.3);">
+      Pure Gold Jewellery
+    </div>
+  </div>
+
+  <!-- Loading bar -->
+  <div style="width: 120px;
+              height: 1px;
+              background: rgba(255,255,255,0.1);
+              margin-top: 32px;
+              overflow: hidden;">
+    <div id="loader-bar"
+         style="height: 100%;
+                width: 0%;
+                background: var(--gold);
+                transition: width 1.2s ease;">
+    </div>
+  </div>
+
+  <!-- Loading text -->
+  <p style="font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-top: 16px;">
+    Loading...
+  </p>
+
+</div>
+
+<style>
+  /* Logo pulse animation */
+  @keyframes loaderPulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.5; }
+    100% { opacity: 1; }
+  }
+
+  /* Hide scrollbar while loader is visible */
+  body.loading {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  /*
+    Loader Logic:
+    1. Page starts loading — loader visible
+    2. Loading bar fills up in 1.2 seconds
+    3. After 1.5 seconds loader fades out
+    4. Body scroll restored
+    5. Loader removed from DOM completely
+
+    Why remove from DOM?
+    So it never shows again on back button.
+    Only shows on fresh page load.
+  */
+  document.body.classList.add('loading');
+
+  // Start the loading bar
+  window.addEventListener('load', function () {
+    const bar    = document.getElementById('loader-bar');
+    const loader = document.getElementById('page-loader');
+
+    // Fill the bar
+    if (bar) bar.style.width = '100%';
+
+    // Fade out loader after 1.5 seconds
+    setTimeout(function () {
+      if (loader) {
+        loader.style.opacity = '0';
+      }
+      document.body.classList.remove('loading');
+
+      // Remove from DOM after fade completes
+      setTimeout(function () {
+        if (loader) loader.remove();
+      }, 500);
+
+    }, 1500);
+  });
+</script>
+  <!-- =====================================================
+     GOLD RATE SCROLLING TICKER
+     Scrolls across the top like a news ticker.
+     Shows gold rates on every page.
+===================================================== -->
+<div id="gold-ticker"
+     style="background: var(--navy);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.75rem;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(201,168,76,0.15);
+            overflow: hidden;">
+  <div class="container d-flex justify-content-between
+              align-items-center">
+
+    <!-- Left label -->
+    <div style="flex-shrink: 0;
+                color: var(--gold);
+                font-weight: 700;
+                font-size: 0.7rem;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                padding-right: 16px;
+                border-right: 1px solid rgba(201,168,76,0.2);
+                margin-right: 16px;
+                white-space: nowrap;">
+      <i class="bi bi-coin me-1"></i> Live Gold Rate
+    </div>
+
+    <!-- Scrolling rates -->
+    <div style="flex: 1; overflow: hidden; position: relative;">
+      <div id="ticker-scroll"
+           style="display: flex;
+                  gap: 40px;
+                  white-space: nowrap;
+                  animation: tickerScroll 20s linear infinite;">
+
+        <!-- First set of rates -->
+        <span>
+          24K &nbsp;
+          <strong id="rate-24k" style="color: var(--gold);">
+            Loading...
+          </strong>
+        </span>
+        <span style="color: rgba(201,168,76,0.3);">✦</span>
+        <span>
+          22K &nbsp;
+          <strong id="rate-22k" style="color: var(--gold);">—</strong>
+        </span>
+        <span style="color: rgba(201,168,76,0.3);">✦</span>
+        <span>
+          18K &nbsp;
+          <strong id="rate-18k" style="color: var(--gold);">—</strong>
+        </span>
+        <span style="color: rgba(201,168,76,0.3);">✦</span>
+        <span style="color: rgba(255,255,255,0.3);
+                     font-size: 0.68rem;">
+          per gram &nbsp;·&nbsp;
+          <span id="rate-source"></span>
+        </span>
+        <span style="color: rgba(201,168,76,0.3);">✦</span>
+
+        <!-- Duplicate set for seamless loop -->
+        <span>
+          24K &nbsp;
+          <strong class="rate-24k-dup"
+                  style="color: var(--gold);">
+            Loading...
+          </strong>
+        </span>
+        <span style="color: rgba(201,168,76,0.3);">✦</span>
+        <span>
+          22K &nbsp;
+          <strong class="rate-22k-dup"
+                  style="color: var(--gold);">—</strong>
+        </span>
+        <span style="color: rgba(201,168,76,0.3);">✦</span>
+        <span>
+          18K &nbsp;
+          <strong class="rate-18k-dup"
+                  style="color: var(--gold);">—</strong>
+        </span>
+        <span style="color: rgba(201,168,76,0.3);">✦</span>
+        <span style="color: rgba(255,255,255,0.3);
+                     font-size: 0.68rem;">
+          per gram &nbsp;·&nbsp; BIS Certified
+        </span>
+        <span style="color: rgba(201,168,76,0.3);">✦</span>
+
+      </div>
+    </div>
+
+    <!-- Right: phone number (fixed, doesn't scroll) -->
+    <div style="flex-shrink: 0;
+                padding-left: 16px;
+                border-left: 1px solid rgba(201,168,76,0.2);
+                margin-left: 16px;
+                white-space: nowrap;">
+      <a href="tel:+919618148380"
+         style="color: var(--gold);
+                text-decoration: none;
+                font-size: 0.72rem;
+                font-weight: 600;">
+        <i class="bi bi-telephone me-1"></i>
+        +91 9618148380
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- Ticker scroll animation -->
+<style>
+  @keyframes tickerScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Pause on hover — user can read the rate */
+  #ticker-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  /* Hide phone on very small screens */
+  @media (max-width: 480px) {
+    #gold-ticker .border-left {
+      display: none;
+    }
+  }
+</style>
+
+ 
+
+  <!-- =====================================================
+       MAIN NAVBAR
+       Sticky navbar with:
+       - Logo/brand on left
+       - Nav links in center (with dropdown for categories)
+       - Auth buttons on right
+       - Hamburger for mobile
+  ===================================================== -->
+ <!-- =====================================================
+     MAIN NAVBAR
+===================================================== -->
+<nav id="main-navbar" class="navbar navbar-expand-lg">
+  <div class="container">
+
+    <!-- Brand -->
+    <a href="{% url 'products:home' %}" class="navbar-brand-wrap me-4">
+      <span class="brand-name">NARA</span>
+      <span class="brand-tagline">Pure Gold Jewellery</span>
+    </a>
+
+    <!-- Hamburger for mobile -->
+    <button class="navbar-toggler border-0 shadow-none"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu">
+      <i class="bi bi-list" style="font-size: 1.6rem; color: var(--navy);"></i>
+    </button>
+
+    <!-- Nav links (collapse on mobile) -->
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav me-auto">
+
+        <!-- Home → goes to homepage -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'products:home' %}">
+            Home
+          </a>
+        </li>
+
+        <!--
+          Collections → has two parts:
+          1. Main link goes to /shop/ page
+          2. Dropdown shows category filters
+        -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle"
+             href="{% url 'products:product_list' %}"
+             data-bs-toggle="dropdown">
+            Collections
+            <i class="bi bi-chevron-down dd-arrow"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item"
+                 href="{% url 'products:product_list' %}">
+                All Jewellery
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider"
+                  style="margin: 4px 0; border-color: var(--cream-dark);">
+            </li>
+            {% for cat in nav_categories %}
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'products:product_list' %}?category={{ cat.id }}">
+                  {{ cat.name }}
+                </a>
+              </li>
+            {% empty %}
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'products:product_list' %}">
+                  Rings
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'products:product_list' %}">
+                  Necklaces
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'products:product_list' %}">
+                  Earrings
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'products:product_list' %}">
+                  Bracelets
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </li>
+
+        <!--
+          About → anchor link on homepage.
+          If user is on homepage it scrolls.
+          If on another page it goes to homepage then scrolls.
+        -->
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'products:home' %}#about">
+            About
+          </a>
+        </li>
+
+        <!-- Services → anchor on homepage -->
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'products:home' %}#services">
+            Services
+          </a>
+        </li>
+
+        <!-- Wishlist → goes to /wishlist/ page -->
+        {% if user.is_authenticated %}
+          <li class="nav-item" style="position: relative;">
+            <a class="nav-link"
+               href="{% url 'wishlist:wishlist_page' %}">
+              <i class="bi bi-heart me-1"></i>Wishlist
+            </a>
+            <!--
+              Badge shows count of saved items.
+              Updated by JavaScript on page load.
+            -->
+            <span id="wishlist-count"
+                  class="wishlist-badge">
+              0
+            </span>
+          </li>
+        {% endif %}
+
+        <!-- Contact → anchor on homepage -->
+        <li class="nav-item">
+          <a class="nav-link"
+             href="{% url 'products:home' %}#contact">
+            Contact
+          </a>
+        </li>
+
+      </ul>
+
+      <!--
+        ACCOUNT DROPDOWN
+        Shows on right side of navbar.
+
+        Logic:
+        - If logged OUT → shows Login + Signup in dropdown
+        - If logged IN  → shows username + Profile + Logout in dropdown
+
+        Why dropdown instead of separate buttons?
+        Cleaner. More professional. Real websites do this.
+      -->
+      <div class="nav-auth-area">
+
+        {% if user.is_authenticated %}
+
+          <!-- Logged in: show Account dropdown -->
+          <div class="dropdown">
+            <button class="btn-gold btn-gold-outline btn-gold-sm
+                           dropdown-toggle d-flex align-items-center gap-2"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    style="letter-spacing: 1.5px;">
+              <i class="bi bi-person-circle"></i>
+              <span class="d-none d-md-inline">{{ user.username }}</span>
+              <i class="bi bi-chevron-down dd-arrow"
+                 style="font-size: 0.55rem;"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end"
+                style="min-width: 180px;">
+
+              <!-- Username display (not a link, just info) -->
+              <li>
+                <div style="padding: 10px 20px 6px;
+                            font-size: 0.65rem;
+                            font-weight: 700;
+                            letter-spacing: 2px;
+                            text-transform: uppercase;
+                            color: var(--muted);">
+                  Signed in as
+                </div>
+                <div style="padding: 0 20px 10px;
+                            font-family: var(--serif);
+                            font-size: 1rem;
+                            color: var(--navy);
+                            font-weight: 600;">
+                  {{ user.username }}
+                </div>
+              </li>
+
+              <li>
+                <hr class="dropdown-divider"
+                    style="margin: 4px 0;
+                           border-color: var(--cream-dark);">
+              </li>
+
+              <!-- Profile link -->
+<li>
+  <a class="dropdown-item"
+     href="{% url 'users:profile' %}">
+    <i class="bi bi-person me-2"
+       style="color: var(--gold);"></i>
+    My Profile
+  </a>
+</li>
+
+              <!-- Logout -->
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'users:logout' %}"
+                   style="color: #c62828;">
+                  <i class="bi bi-box-arrow-right me-2"></i>
+                  Logout
+                </a>
+              </li>
+
+            </ul>
+          </div>
+
+        {% else %}
+
+          <!-- Logged out: show Account dropdown with Login + Signup -->
+          <div class="dropdown">
+            <button class="btn-gold btn-gold-sm dropdown-toggle
+                           d-flex align-items-center gap-2"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    style="letter-spacing: 1.5px;">
+              <i class="bi bi-person"></i>
+              Account
+              <i class="bi bi-chevron-down dd-arrow"
+                 style="font-size: 0.55rem;"></i>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end"
+                style="min-width: 160px;">
+
+              <!-- Login -->
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'users:login' %}">
+                  <i class="bi bi-box-arrow-in-right me-2"
+                     style="color: var(--gold);"></i>
+                  Login
+                </a>
+              </li>
+
+              <!-- Signup -->
+              <li>
+                <a class="dropdown-item"
+                   href="{% url 'users:signup' %}">
+                  <i class="bi bi-person-plus me-2"
+                     style="color: var(--gold);"></i>
+                  Sign Up
+                </a>
+              </li>
+
+            </ul>
+          </div>
+
+        {% endif %}
+
+      </div><!-- end nav-auth-area -->
+
+    </div><!-- end navbar-collapse -->
+  </div><!-- end container -->
+</nav>
+  <!-- =====================================================
+       FLASH MESSAGES
+       Django messages framework shows alerts here.
+       They appear between navbar and page content.
+  ===================================================== -->
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert
+                  alert-{% if message.tags == 'error' %}danger
+                         {% else %}{{ message.tags }}
+                         {% endif %}
+                  alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close"
+                data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  </div>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+       Each child template fills this block.
+  ===================================================== -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+       Split into 4 columns:
+       - Brand + social
+       - Explore links
+       - Categories
+       - Contact
+  ===================================================== -->
+  <footer id="main-footer">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+
+      <!-- Col 1: Brand identity -->
+      <div class="col-12 col-md-5">
+        <div class="footer-brand">NARA</div>
+        <div class="footer-tagline">Pure Gold Jewellery</div>
+        <p style="font-size: 0.83rem;
+                  line-height: 1.9;
+                  color: rgba(255,255,255,0.4);
+                  max-width: 300px;
+                  margin-bottom: 20px;">
+          BIS hallmarked, certified gold jewellery
+          with free home visit service across Bangalore.
+          No middlemen. No online payments. Pure trust.
+        </p>
+
+        <!-- Social icons -->
+        <div class="footer-social">
+          <a href="https://instagram.com"
+             target="_blank"
+             title="Instagram">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="https://facebook.com"
+             target="_blank"
+             title="Facebook">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="https://wa.me/919618148380"
+             target="_blank"
+             title="WhatsApp">
+            <i class="bi bi-whatsapp"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Col 2: Location + timings only -->
+      <!--
+        WHY we keep this:
+        Address and timings are useful in footer
+        because users scroll to bottom looking
+        for "where is this shop".
+        It's different from the contact FORM above.
+      -->
+      <div class="col-6 col-md-3">
+        <div class="footer-heading">Our Showroom</div>
+        <ul class="footer-links">
+          <li style="margin-bottom: 10px;">
+            <i class="bi bi-shop me-2"
+               style="color: var(--gold);"></i>
+            Marathahalli<br>
+            <span style="margin-left: 22px;
+                         font-size: 0.78rem;
+                         color: rgba(255,255,255,0.3);">
+              Bangalore — 560037
+            </span>
+          </li>
+          <li style="margin-bottom: 10px;">
+            <i class="bi bi-clock me-2"
+               style="color: var(--gold);"></i>
+            Mon–Sat: 10AM–7PM
+          </li>
+          <li>
+            <a href="https://maps.google.com/?q=Marathahalli,Bangalore"
+               target="_blank">
+              <i class="bi bi-geo-alt me-2"
+                 style="color: var(--gold);"></i>
+              View on Maps →
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Quick contact shortcuts only -->
+      <!--
+        WHY we keep this:
+        Phone and WhatsApp in footer = convenience.
+        User scrolled all the way down,
+        they should not scroll back up just to call.
+        This is NOT redundant — it's a shortcut.
+      -->
+      <div class="col-6 col-md-4">
+        <div class="footer-heading">Quick Contact</div>
+        <ul class="footer-links">
+          <li style="margin-bottom: 10px;">
+            <a href="tel:+919618148380">
+              <i class="bi bi-telephone me-2"
+                 style="color: var(--gold);"></i>
+              +91 9618148380
+            </a>
+          </li>
+          <li style="margin-bottom: 10px;">
+            <a href="mailto:hello@narajewellery.com">
+              <i class="bi bi-envelope me-2"
+                 style="color: var(--gold);"></i>
+              hello@narajewellery.com
+            </a>
+          </li>
+          <li style="margin-top: 16px;">
+            <a href="https://wa.me/919618148380?text=Hi! I'm interested in Nara Jewellery."
+               target="_blank"
+               class="btn-wa"
+               style="padding: 9px 18px;
+                      font-size: 0.65rem;">
+              <i class="bi bi-whatsapp"></i>
+              WhatsApp Us
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr class="footer-divider">
+
+    <!-- Bottom copyright bar -->
+    <div class="d-flex justify-content-between
+                align-items-center flex-wrap gap-2">
+      <p class="footer-bottom mb-0">
+        © 2025 Nara Jewellery. All rights reserved.
+        BIS Hallmarked · Certified Pure Gold.
+      </p>
+      <p class="footer-bottom mb-0">
+        Crafted with ♥ for real gold lovers.
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+
+  <!-- Back to top button -->
+  <button id="back-to-top" title="Back to top">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!--
+    WISHLIST JS
+    Handles:
+    - Loading wishlist count on page load
+    - Toggle add/remove via AJAX (no page reload)
+    - Updating the navbar badge count
+    - Showing a toast notification
+  -->
+  <script>
+    // Get CSRF token from cookie (required for Django POST requests)
+    function getCookie(name) {
+      let value = null;
+      if (document.cookie) {
+        document.cookie.split(';').forEach(c => {
+          c = c.trim();
+          if (c.startsWith(name + '=')) {
+            value = decodeURIComponent(c.slice(name.length + 1));
+          }
+        });
+      }
+      return value;
+    }
+
+    // Update the wishlist badge in the navbar
+    function updateWishlistBadge(count) {
+      const badge = document.getElementById('wishlist-count');
+      if (!badge) return;
+      badge.textContent = count;
+      badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+
+    // On page load, fetch the wishlist count
+    document.addEventListener('DOMContentLoaded', function () {
+      fetch('/wishlist/count/')
+        .then(r => r.json())
+        .then(data => updateWishlistBadge(data.count))
+        .catch(() => {});
+
+      // Attach click handler to all wishlist toggle buttons
+      document.querySelectorAll('.wishlist-toggle').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const productId = this.dataset.productId;
+          const icon      = this.querySelector('i');
+
+          fetch(`/wishlist/toggle/${productId}/`, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': getCookie('csrftoken'),
+              'Content-Type': 'application/json',
+            },
+          })
+          .then(r => r.json())
+          .then(data => {
+            // Swap the heart icon
+            if (data.in_wishlist) {
+              icon.className = 'bi bi-heart-fill text-danger';
+            } else {
+              icon.className = 'bi bi-heart';
+            }
+            updateWishlistBadge(data.count);
+
+            // If on the wishlist page, remove the card
+            const cardId = this.dataset.cardId;
+            if (cardId && !data.in_wishlist) {
+              const card = document.getElementById(cardId);
+              if (card) card.closest('[class*="col-"]').remove();
+            }
+
+            // Update the detail page wishlist button text
+            const detailBtn = document.getElementById('detail-wishlist-btn');
+            if (detailBtn) {
+              detailBtn.innerHTML = data.in_wishlist
+                ? '<i class="bi bi-heart-fill text-danger"></i> &nbsp; Saved to Wishlist'
+                : '<i class="bi bi-heart"></i> &nbsp; Save to Wishlist';
+            }
+
+            showToast(data.message);
+          })
+          .catch(err => console.error('Wishlist error:', err));
+        });
+      });
+    });
+
+    // Toast notification (bottom center)
+    function showToast(message) {
+      let toast = document.getElementById('nara-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'nara-toast';
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 28px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: var(--navy, #0D1B2A);
+          color: #fff;
+          padding: 12px 28px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          letter-spacing: 1px;
+          border-left: 3px solid #C9A84C;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+          z-index: 9999;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(toast);
+      }
+      toast.textContent = message;
+      toast.style.opacity = '1';
+      setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+    }
+  </script>
+
+  <!--
+    GOLD RATE JS
+    Fetches /gold-rate/ endpoint and updates
+    the ticker bar and homepage rate cards.
+    Refreshes every 10 minutes automatically.
+  -->
+  <!-- Gold Rate JS -->
+<script>
+  function updateGoldDisplay(data) {
+    const fmt = n => '₹' + Number(n).toLocaleString('en-IN');
+    const now  = new Date().toLocaleTimeString('en-IN', {
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    // ── Ticker bar original elements ──
+    const r24 = document.getElementById('rate-24k');
+    const r22 = document.getElementById('rate-22k');
+    const r18 = document.getElementById('rate-18k');
+    const src = document.getElementById('rate-source');
+
+    if (r24) r24.textContent = fmt(data.rate_per_gram_24k);
+    if (r22) r22.textContent = fmt(data.rate_per_gram_22k);
+    if (r18) r18.textContent = fmt(data.rate_per_gram_18k);
+    if (src) src.textContent = data.source === 'live'
+      ? '🟢 Live' : '🟡 Cached';
+
+    // ── Ticker bar duplicate elements ──
+    // These are the copied cards for seamless loop
+    document.querySelectorAll('.rate-24k-dup').forEach(el => {
+      el.textContent = fmt(data.rate_per_gram_24k);
+    });
+    document.querySelectorAll('.rate-22k-dup').forEach(el => {
+      el.textContent = fmt(data.rate_per_gram_22k);
+    });
+    document.querySelectorAll('.rate-18k-dup').forEach(el => {
+      el.textContent = fmt(data.rate_per_gram_18k);
+    });
+
+    // ── Homepage gold rate cards ──
+    const homeRates = {
+      'home-rate-24k': data.rate_per_gram_24k,
+      'home-rate-22k': data.rate_per_gram_22k,
+      'home-rate-18k': data.rate_per_gram_18k,
+      'home-rate-10g': data.rate_per_10gram_24k,
+    };
+    Object.entries(homeRates).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = fmt(val);
+    });
+
+    const homeSrc = document.getElementById('home-rate-source');
+    const homeTm  = document.getElementById('home-rate-time');
+    if (homeSrc) homeSrc.textContent = data.source === 'live'
+      ? '🟢 Live' : '🟡 Cached';
+    if (homeTm) homeTm.textContent = 'Updated at ' + now;
+  }
+
+  function fetchGoldRate() {
+    fetch('/gold-rate/')
+      .then(r => r.json())
+      .then(data => updateGoldDisplay(data))
+      .catch(() => {
+        const el = document.getElementById('rate-24k');
+        if (el) el.textContent = 'Unavailable';
+      });
+  }
+
+  function refreshGoldRate() {
+    const el = document.getElementById('home-rate-24k');
+    if (el) el.textContent = 'Refreshing...';
+    fetchGoldRate();
+  }
+
+  document.addEventListener('DOMContentLoaded', fetchGoldRate);
+  setInterval(fetchGoldRate, 10 * 60 * 1000);
+</script>
+
+  <!--
+    UTILITY JS
+    - Back to top button
+    - Active nav link highlighting
+  -->
+  <script>
+    // Back to top
+    const topBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      topBtn.style.display = window.scrollY > 400 ? 'flex' : 'none';
+    });
+    topBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Highlight active nav link based on current URL
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+
+  {% block extra_js %}{% endblock %}
+  <!--
+  Floating WhatsApp Button
+  Always visible on every page, bottom right.
+  This is standard for Indian jewellery businesses.
+-->
+<a href="https://wa.me/919618148380?text=Hi! I'm interested in Nara Jewellery."
+   target="_blank"
+   id="whatsapp-float"
+   title="Chat with us on WhatsApp"
+   style="position: fixed;
+          bottom: 80px;
+          right: 28px;
+          width: 52px;
+          height: 52px;
+          background: #25D366;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+          z-index: 998;
+          text-decoration: none;
+          transition: transform 0.2s ease;"
+   onmouseover="this.style.transform='scale(1.1)'"
+   onmouseout="this.style.transform='scale(1)'">
+  <i class="bi bi-whatsapp"
+     style="font-size: 1.6rem; color: #fff;"></i>
+</a>
+
+<!-- Pulse animation for WhatsApp button -->
+<style>
+  #whatsapp-float {
+    animation: wpulse 2s infinite;
+  }
+  @keyframes wpulse {
+    0%   { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+    70%  { box-shadow: 0 0 0 12px rgba(37,211,102,0); }
+    100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+  }
+</style>
+<!--
+  Login Required Modal
+  Shows when logged-out user tries
+  to do something that needs login.
+  Much better UX than just hiding buttons.
+-->
+<div id="login-modal"
+     style="display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(13,27,42,0.85);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);">
+
+  <div style="background: #fff;
+              padding: 48px 40px;
+              max-width: 420px;
+              width: 90%;
+              position: relative;
+              text-align: center;">
+
+    <!-- Close button -->
+    <button onclick="closeLoginModal()"
+            style="position: absolute;
+                   top: 16px;
+                   right: 16px;
+                   background: none;
+                   border: none;
+                   font-size: 1.2rem;
+                   color: var(--muted);
+                   cursor: pointer;">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <!-- Icon -->
+    <div style="font-size: 2.5rem;
+                margin-bottom: 16px;">
+      🔒
+    </div>
+
+    <!-- Heading -->
+    <h4 style="font-family: var(--serif);
+               font-size: 1.6rem;
+               color: var(--navy);
+               margin-bottom: 8px;
+               font-weight: 600;">
+      Login Required
+    </h4>
+
+    <!-- Subtext -->
+    <p style="font-size: 0.85rem;
+              color: var(--muted);
+              line-height: 1.8;
+              margin-bottom: 28px;">
+      Please login or create a free account
+      to save jewellery to your wishlist
+      and request home previews.
+    </p>
+
+    <!-- Buttons -->
+    <div class="d-flex flex-column gap-3">
+      <a id="modal-login-btn"
+         href="{% url 'users:login' %}"
+         class="btn-gold"
+         style="padding: 13px;
+                text-align: center;
+                font-size: 0.72rem;">
+        Login to Your Account
+      </a>
+      <a href="{% url 'users:signup' %}"
+         style="font-size: 0.78rem;
+                font-weight: 700;
+                color: var(--gold);
+                text-decoration: none;
+                letter-spacing: 1px;">
+        Don't have an account?
+        <span style="border-bottom: 1px solid var(--gold);">
+          Sign Up Free
+        </span>
+      </a>
+    </div>
+
+    <!-- Trust note -->
+    <p style="font-size: 0.7rem;
+              color: var(--muted);
+              margin-top: 20px;">
+      🔒 Free to join &nbsp;·&nbsp;
+      No spam &nbsp;·&nbsp;
+      No online payments ever
+    </p>
+
+  </div>
+</div>
+
+<script>
+  // Show modal with next URL so after login
+  // user comes back to same page
+  function showLoginModal(nextUrl) {
+    const modal    = document.getElementById('login-modal');
+    const loginBtn = document.getElementById('modal-login-btn');
+
+    // Set login URL with next parameter
+    if (nextUrl) {
+      loginBtn.href = "{% url 'users:login' %}?next=" + nextUrl;
+    }
+
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLoginModal() {
+    const modal = document.getElementById('login-modal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  // Close modal when clicking outside
+  document.getElementById('login-modal')
+    .addEventListener('click', function(e) {
+      if (e.target === this) closeLoginModal();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLoginModal();
+  });
+</script>
+</body>
+</html>

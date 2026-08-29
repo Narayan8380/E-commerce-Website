@@ -1,0 +1,533 @@
+{% extends 'base.html' %}
+{% load product_filters %}
+{% block title %}{{ product.product_name }} — Nara Jewellery{% endblock %}
+{% block meta_description %}
+
+{% block content %}
+
+
+  <meta name="description"
+        content="{{ product.product_name }} — ₹{{ product.price }}. {{ product.description|truncatewords:20 }}">
+
+<!-- ── Breadcrumb ── -->
+<div style="background: #fff;
+            border-bottom: 1px solid var(--cream-dark);
+            padding: 13px 0;">
+  <div class="container">
+    <nav style="font-size: 0.72rem;
+                font-weight: 600;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                color: var(--muted);">
+      <a href="{% url 'products:home' %}"
+         style="color: var(--muted); text-decoration: none;">
+        Home
+      </a>
+      <span style="margin: 0 10px; color: var(--gold);">›</span>
+      <a href="{% url 'products:product_list' %}"
+         style="color: var(--muted); text-decoration: none;">
+        Collections
+      </a>
+      <span style="margin: 0 10px; color: var(--gold);">›</span>
+      <span style="color: var(--navy);">{{ product.product_name }}</span>
+    </nav>
+  </div>
+</div>
+
+
+<!-- ── Main Product Section ── -->
+<section style="background: var(--cream); padding: 56px 0;">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Left: Product image -->
+      <div class="col-lg-5">
+        <div style="position: sticky; top: 90px;">
+
+          <!-- Main image box -->
+          <div style="background: #fff;
+                      aspect-ratio: 1;
+                      overflow: hidden;
+                      position: relative;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;">
+            {% if product.image %}
+              <img src="{{ product.image.url }}"
+                   alt="{{ product.product_name }}"
+                   style="width: 100%;
+                          height: 100%;
+                          object-fit: cover;">
+            {% else %}
+              <div style="text-align: center;">
+                <div style="font-size: 5rem; opacity: 0.2;">💎</div>
+                <p style="font-size: 0.68rem;
+                          letter-spacing: 3px;
+                          text-transform: uppercase;
+                          color: var(--gold);
+                          margin-top: 10px;">
+                  Nara Jewellery
+                </p>
+              </div>
+            {% endif %}
+
+            <!-- BIS badge overlay -->
+            <div style="position: absolute;
+                        top: 14px;
+                        left: 14px;
+                        background: var(--navy);
+                        padding: 6px 12px;">
+              <span style="font-size: 0.58rem;
+                           font-weight: 700;
+                           letter-spacing: 2px;
+                           text-transform: uppercase;
+                           color: var(--gold);">
+                BIS Hallmarked
+              </span>
+            </div>
+          </div>
+
+          <!-- Save to wishlist below image -->
+          {% if user.is_authenticated %}
+            <button class="wishlist-toggle w-100 mt-3"
+                    id="detail-wishlist-btn"
+                    data-product-id="{{ product.pk }}"
+                    style="background: #fff;
+                           border: 1.5px solid var(--cream-dark);
+                           padding: 12px;
+                           font-size: 0.72rem;
+                           font-weight: 700;
+                           letter-spacing: 2px;
+                           text-transform: uppercase;
+                           color: var(--charcoal);
+                           cursor: pointer;
+                           transition: all 0.2s;
+                           width: 100%;">
+              {% if product.pk|is_in_wishlist:request.user %}
+                <i class="bi bi-heart-fill text-danger"></i>
+                &nbsp; Saved to Wishlist
+              {% else %}
+                <i class="bi bi-heart"></i>
+                &nbsp; Save to Wishlist
+              {% endif %}
+            </button>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <!-- Right: Product info -->
+      <div class="col-lg-7">
+
+        <!-- Category label -->
+        {% if product.category %}
+          <p style="font-size: 0.65rem;
+                    font-weight: 700;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                    color: var(--gold);
+                    margin-bottom: 10px;">
+            {{ product.category.name }}
+          </p>
+        {% endif %}
+
+        <!-- Product name -->
+        <h1 style="font-family: var(--serif);
+                   font-size: clamp(1.8rem, 3vw, 2.8rem);
+                   font-weight: 400;
+                   color: var(--navy);
+                   line-height: 1.2;
+                   margin-bottom: 14px;">
+          {{ product.product_name }}
+        </h1>
+
+        <!-- Price -->
+        <div style="margin-bottom: 20px;">
+          <span style="font-family: var(--serif);
+                       font-size: 2rem;
+                       font-weight: 600;
+                       color: var(--gold-dark);">
+            ₹{{ product.price }}
+          </span>
+          <span style="font-size: 0.72rem;
+                       color: var(--muted);
+                       margin-left: 10px;
+                       letter-spacing: 1px;">
+            + Making charges applicable
+          </span>
+        </div>
+
+        <!-- Divider -->
+        <div style="height: 1px;
+                    background: var(--cream-dark);
+                    margin-bottom: 20px;"></div>
+
+        <!-- Description -->
+        <p style="font-size: 0.9rem;
+                  color: var(--muted);
+                  line-height: 1.9;
+                  margin-bottom: 24px;">
+          {{ product.description|default:"A timeless piece crafted with certified pure gold. Every detail is hand-finished by our master craftsmen to ensure the highest standard of quality and beauty." }}
+        </p>
+
+        <!-- Product details grid -->
+        <div style="background: var(--cream-dark);
+                    padding: 20px 22px;
+                    margin-bottom: 24px;">
+          <div class="row g-3">
+            <div class="col-6">
+              <p style="font-size: 0.62rem;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: var(--muted);
+                        margin-bottom: 4px;">
+                Purity
+              </p>
+              <p style="font-family: var(--serif);
+                        font-size: 1rem;
+                        color: var(--navy);
+                        font-weight: 600;
+                        margin: 0;">
+                BIS Hallmarked
+              </p>
+            </div>
+            <div class="col-6">
+              <p style="font-size: 0.62rem;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: var(--muted);
+                        margin-bottom: 4px;">
+                Availability
+              </p>
+              <p style="font-family: var(--serif);
+                        font-size: 1rem;
+                        font-weight: 600;
+                        margin: 0;
+                        color: {% if product.stock_quantity > 0 %}#2e7d32{% else %}#c62828{% endif %};">
+                {% if product.stock_quantity > 0 %}
+                  Available for Preview
+                {% else %}
+                  Currently Unavailable
+                {% endif %}
+              </p>
+            </div>
+            <div class="col-6">
+              <p style="font-size: 0.62rem;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: var(--muted);
+                        margin-bottom: 4px;">
+                Home Visit
+              </p>
+              <p style="font-family: var(--serif);
+                        font-size: 1rem;
+                        color: var(--navy);
+                        font-weight: 600;
+                        margin: 0;">
+                Free of Charge
+              </p>
+            </div>
+            <div class="col-6">
+              <p style="font-size: 0.62rem;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: var(--muted);
+                        margin-bottom: 4px;">
+                Payment
+              </p>
+              <p style="font-family: var(--serif);
+                        font-size: 1rem;
+                        color: var(--navy);
+                        font-weight: 600;
+                        margin: 0;">
+                In Person Only
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live gold rate reference -->
+        {% if gold_data %}
+          <div style="border: 1px solid rgba(201,168,76,0.3);
+                      padding: 14px 18px;
+                      margin-bottom: 24px;
+                      background: rgba(201,168,76,0.04);">
+            <p style="font-size: 0.62rem;
+                      font-weight: 700;
+                      letter-spacing: 2px;
+                      text-transform: uppercase;
+                      color: var(--gold);
+                      margin-bottom: 8px;">
+              Today's Gold Rate Reference
+            </p>
+            <div class="d-flex gap-4 flex-wrap">
+              <span style="font-size: 0.8rem; color: var(--muted);">
+                24K:
+                <strong style="color: var(--navy);">
+                  ₹{{ gold_data.rate_per_gram_24k }}/g
+                </strong>
+              </span>
+              <span style="font-size: 0.8rem; color: var(--muted);">
+                22K:
+                <strong style="color: var(--navy);">
+                  ₹{{ gold_data.rate_per_gram_22k }}/g
+                </strong>
+              </span>
+              <span style="font-size: 0.8rem; color: var(--muted);">
+                18K:
+                <strong style="color: var(--navy);">
+                  ₹{{ gold_data.rate_per_gram_18k }}/g
+                </strong>
+              </span>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- CTA Buttons-->
+        <div class="d-flex flex-column gap-3">
+
+          <!-- Primary: WhatsApp -->
+          <a href="https://wa.me/919618148380?text=Hi! I'm interested in *{{ product.product_name }}* priced at ₹{{ product.price }}. I'd like to request a home preview."
+             target="_blank"
+             class="btn-wa"
+             style="justify-content: center;
+                    padding: 15px;
+                    font-size: 0.75rem;
+                    text-align: center;">
+            <i class="bi bi-whatsapp" style="font-size: 1rem;"></i>
+            Request Home Preview via WhatsApp
+          </a>
+
+          <!-- Secondary: Call -->
+          <a href="tel:+919618148381"
+             class="btn-gold btn-gold-outline"
+             style="text-align: center; padding: 13px;">
+            <i class="bi bi-telephone me-2"></i>
+            Call to Schedule Visit
+          </a>
+            {% else %}
+          
+            <!--NOT logged in.
+            Show modal instead of redirecting away.
+            User stays on product page. -->
+         
+          <button onclick="showLoginModal('{{ request.path }}')"
+                  class="btn-wa"
+                  style="justify-content: center;
+                         padding: 15px;
+                         font-size: 0.75rem;
+                         text-align: center;
+                         width: 100%;
+                         border: none;
+                         cursor: pointer;">
+            <i class="bi bi-lock me-2"></i>
+            Login to Request Home Preview
+          </button>
+      
+          <button onclick="showLoginModal('{{ request.path }}')"
+                  class="btn-gold btn-gold-outline"
+                  style="text-align: center;
+                         padding: 13px;
+                         width: 100%;
+                         border: none;
+                         cursor: pointer;">
+            <i class="bi bi-heart me-2"></i>
+            Login to Save to Wishlist
+          </button>
+      
+        {% endif %}
+      
+        </div> 
+
+        <!-- Trust reassurance line -->
+        <p style="font-size: 0.73rem;
+                  color: var(--muted);
+                  margin-top: 14px;
+                  text-align: center;
+                  line-height: 1.8;">
+          🔒 No online payment &nbsp;·&nbsp;
+          🏠 Free home visit &nbsp;·&nbsp;
+          ✅ No obligation to buy
+        </p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Request Home Visit Form ──
+     Customer fills their name, phone, address.
+     We contact them to confirm.
+     No payment involved.
+-->
+<section style="background: #fff; padding: 70px 0;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+
+        <div style="text-align: center; margin-bottom: 40px;">
+          <p class="sec-label">Book an Appointment</p>
+          <h2 class="sec-title">Request a Home Preview</h2>
+          <div class="sec-divider"></div>
+          <p style="color: var(--muted);
+                    font-size: 0.86rem;
+                    line-height: 1.8;
+                    margin-top: 14px;">
+            Fill in your details below. We'll call you within
+            2 hours to confirm your appointment.
+          </p>
+        </div>
+
+        <!-- Success state -->
+        {% if request_sent %}
+          <div style="background: #f0fdf4;
+                      border-left: 4px solid #22c55e;
+                      padding: 28px;
+                      text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">✅</div>
+            <h5 style="color: #15803d;
+                       font-family: var(--serif);
+                       margin-bottom: 8px;">
+              Request Sent!
+            </h5>
+            <p style="color: #166534;
+                      font-size: 0.84rem;
+                      margin: 0;">
+              We'll call you within 2 hours to confirm your home visit.
+            </p>
+          </div>
+
+        {% else %}
+          <!-- Visit request form -->
+          <form method="POST"
+                action="{% url 'products:request_visit' product.pk %}"
+                class="luxury-form">
+            {% csrf_token %}
+
+            <div class="row g-4">
+              <div class="col-md-6">
+                <label>Your Full Name *</label>
+                <input type="text"
+                       name="name"
+                       class="form-control"
+                       required
+                       placeholder="e.g. Priya Sharma">
+              </div>
+
+              <div class="col-md-6">
+                <label>Phone Number *</label>
+                <input type="tel"
+                       name="phone"
+                       class="form-control"
+                       required
+                       placeholder="+91 9618148380"
+                       pattern="[0-9+\s\-]{10,15}"
+                       title="Please enter a valid phone number">
+              </div>
+
+              <div class="col-12">
+                <label>Full Address for Home Visit *</label>
+                <textarea name="address"
+                          class="form-control"
+                          rows="2"
+                          required
+                          placeholder="House number, street, landmark, city..."></textarea>
+              </div>
+
+              <div class="col-md-6">
+                <label>Preferred Date</label>
+                <input type="date"
+                       name="preferred_date"
+                       class="form-control">
+              </div>
+
+              <div class="col-md-6">
+                <label>Preferred Time</label>
+                <select name="preferred_time" class="form-control">
+                  <option value="">Select time slot</option>
+                  <option>Morning (9AM – 12PM)</option>
+                  <option>Afternoon (12PM – 4PM)</option>
+                  <option>Evening (4PM – 7PM)</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label>Message (Optional)</label>
+                <textarea name="message"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Any specific requirements, budget, or questions..."></textarea>
+              </div>
+            </div>
+
+            <button type="submit"
+                    class="btn-gold w-100 mt-4"
+                    style="padding: 15px; font-size: 0.72rem;">
+              Submit Visit Request
+            </button>
+
+            <p style="font-size: 0.7rem;
+                      color: var(--muted);
+                      text-align: center;
+                      margin-top: 12px;
+                      line-height: 1.7;">
+              By submitting you agree to be contacted by our team.
+              No payment required. Ever.
+            </p>
+
+          </form>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Related Products ── -->
+{% if related_products %}
+  <section style="background: var(--cream); padding: 70px 0;">
+    <div class="container">
+
+      <div class="d-flex justify-content-between align-items-end mb-5 flex-wrap gap-3">
+        <div>
+          <p class="sec-label">Same Collection</p>
+          <h3 style="font-family: var(--serif);
+                     font-size: 2rem;
+                     color: var(--navy);
+                     font-weight: 600;
+                     margin: 0;">
+            You May Also Love
+          </h3>
+        </div>
+        <a href="{% url 'products:product_list' %}"
+           style="font-size: 0.72rem;
+                  font-weight: 700;
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  color: var(--gold);
+                  text-decoration: none;
+                  border-bottom: 1px solid var(--gold);
+                  padding-bottom: 2px;">
+          View All →
+        </a>
+      </div>
+
+      <div class="row g-4">
+        {% for related_product in related_products %}
+          <div class="col-6 col-md-3">
+            {% include 'products/_product_card.html' %}
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+{% endif %}
+
+{% endblock %}

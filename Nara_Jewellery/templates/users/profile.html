@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block title %}My Profile — Nara Jewellery{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<section style="background: var(--navy); padding: 50px 0 40px;">
+  <div class="container">
+    <p class="sec-label" style="color: var(--gold);">Your Account</p>
+    <h1 style="font-family: var(--serif);
+               font-size: 2.5rem;
+               color: #fff;
+               font-weight: 300;">
+      My Profile
+    </h1>
+  </div>
+</section>
+
+<section style="background: var(--cream); padding: 60px 0;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+
+        <div style="background: #fff;
+                    padding: 40px;
+                    box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+
+          <p style="font-size: 0.65rem;
+                    font-weight: 700;
+                    letter-spacing: 3px;
+                    text-transform: uppercase;
+                    color: var(--gold);
+                    margin-bottom: 20px;">
+            Account Details
+          </p>
+
+          <form method="POST" class="luxury-form">
+            {% csrf_token %}
+
+            <div class="row g-4">
+
+              <div class="col-12">
+                <label>Username</label>
+                <!-- Username cannot be changed -->
+                <input type="text"
+                       class="form-control"
+                       value="{{ user.username }}"
+                       disabled
+                       style="background: var(--cream);
+                              color: var(--muted);
+                              cursor: not-allowed;">
+                <small style="font-size: 0.68rem;
+                              color: var(--muted);">
+                  Username cannot be changed.
+                </small>
+              </div>
+
+              <div class="col-md-6">
+                <label>First Name</label>
+                <input type="text"
+                       name="first_name"
+                       class="form-control"
+                       value="{{ user.first_name }}"
+                       placeholder="Your first name">
+              </div>
+
+              <div class="col-md-6">
+                <label>Last Name</label>
+                <input type="text"
+                       name="last_name"
+                       class="form-control"
+                       value="{{ user.last_name }}"
+                       placeholder="Your last name">
+              </div>
+
+              <div class="col-12">
+                <label>Email Address</label>
+                <input type="email"
+                       name="email"
+                       class="form-control"
+                       value="{{ user.email }}"
+                       placeholder="your@email.com">
+              </div>
+
+            </div>
+
+            <button type="submit"
+                    class="btn-gold mt-4"
+                    style="padding: 12px 32px;
+                           font-size: 0.7rem;">
+              Save Changes
+            </button>
+
+          </form>
+
+        </div>
+
+        <!-- Quick links -->
+        <div style="margin-top: 24px;
+                    display: flex;
+                    gap: 20px;
+                    flex-wrap: wrap;">
+          <a href="{% url 'wishlist:wishlist_page' %}"
+             style="font-size: 0.75rem;
+                    font-weight: 700;
+                    letter-spacing: 1.5px;
+                    text-transform: uppercase;
+                    color: var(--gold);
+                    text-decoration: none;">
+            <i class="bi bi-heart me-1"></i>
+            My Wishlist
+          </a>
+          <a href="{% url 'users:logout' %}"
+             style="font-size: 0.75rem;
+                    font-weight: 700;
+                    letter-spacing: 1.5px;
+                    text-transform: uppercase;
+                    color: var(--muted);
+                    text-decoration: none;">
+            <i class="bi bi-box-arrow-right me-1"></i>
+            Logout
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

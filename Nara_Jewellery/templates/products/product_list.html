@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+{% load product_filters %}
+{% block title %}Collections — Nara Jewellery{% endblock %}
+
+{% block content %}
+
+<!-- ── Page Header ── -->
+<section style="background: var(--navy);
+                padding: 56px 0 48px;">
+  <div class="container">
+    <p class="sec-label" style="color: var(--gold);">
+      Handcrafted & Certified
+    </p>
+    <h1 style="font-family: var(--serif);
+               font-size: clamp(1.8rem, 4vw, 3rem);
+               color: #fff;
+               font-weight: 300;
+               margin-bottom: 8px;">
+      Our Collections
+    </h1>
+    <p style="color: rgba(255,255,255,0.4);
+              font-size: 0.82rem;
+              letter-spacing: 1px;">
+      Browse · Save Favourites · Request Home Preview
+    </p>
+  </div>
+</section>
+
+
+<!-- ── Filter Bar ──
+     Sticky just below the navbar.
+     Lets user search, filter by category, and sort.
+-->
+<div style="background: #fff;
+            border-bottom: 1px solid var(--cream-dark);
+            padding: 16px 0;
+            position: sticky;
+            top: 73px;
+            z-index: 100;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.04);">
+  <div class="container">
+
+    <form method="GET"
+          class="d-flex flex-wrap gap-2 align-items-center">
+
+      <!-- Search input -->
+      <div style="flex: 1; min-width: 200px; position: relative;">
+        <i class="bi bi-search"
+           style="position: absolute;
+                  left: 10px;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  color: var(--muted);
+                  font-size: 0.8rem;"></i>
+        <input type="text"
+               name="q"
+               value="{{ query }}"
+               placeholder="Search rings, necklaces, earrings..."
+               style="width: 100%;
+                      border: 1.5px solid var(--cream-dark);
+                      padding: 9px 12px 9px 32px;
+                      font-size: 0.82rem;
+                      font-family: var(--sans);
+                      outline: none;
+                      border-radius: 0;
+                      transition: border-color 0.2s;"
+               onfocus="this.style.borderColor = 'var(--gold)'"
+               onblur="this.style.borderColor = 'var(--cream-dark)'">
+      </div>
+
+      <!-- Category filter -->
+      <select name="category"
+              style="border: 1.5px solid var(--cream-dark);
+                     padding: 9px 14px;
+                     font-size: 0.78rem;
+                     font-weight: 600;
+                     font-family: var(--sans);
+                     letter-spacing: 0.5px;
+                     color: var(--charcoal);
+                     outline: none;
+                     border-radius: 0;
+                     cursor: pointer;
+                     min-width: 140px;">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat.id }}"
+            {% if selected_cat == cat.id|stringformat:"s" %}selected{% endif %}>
+            {{ cat.name }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <!-- Sort dropdown -->
+      <select name="sort"
+              style="border: 1.5px solid var(--cream-dark);
+                     padding: 9px 14px;
+                     font-size: 0.78rem;
+                     font-weight: 600;
+                     font-family: var(--sans);
+                     letter-spacing: 0.5px;
+                     color: var(--charcoal);
+                     outline: none;
+                     border-radius: 0;
+                     cursor: pointer;">
+        <option value="newest"
+          {% if sort == 'newest' %}selected{% endif %}>
+          Newest First
+        </option>
+        <option value="price_low"
+          {% if sort == 'price_low' %}selected{% endif %}>
+          Price: Low → High
+        </option>
+        <option value="price_high"
+          {% if sort == 'price_high' %}selected{% endif %}>
+          Price: High → Low
+        </option>
+        <option value="name"
+          {% if sort == 'name' %}selected{% endif %}>
+          Name: A → Z
+        </option>
+      </select>
+
+      <!-- Filter button -->
+      <button type="submit" class="btn-gold" id="filter-btn"
+              style="padding: 9px 22px; font-size: 0.68rem;"
+              onclick="this.innerHTML='Filtering....';">
+        Filter
+      </button>
+
+      <!-- Clear filters link (only shows when filters are active) -->
+      {% if query or selected_cat %}
+        <a href="{% url 'products:product_list' %}"
+           style="font-size: 0.72rem;
+                  font-weight: 600;
+                  color: var(--muted);
+                  text-decoration: none;
+                  letter-spacing: 1px;
+                  padding: 6px;">
+          Clear ✕
+        </a>
+      {% endif %}
+
+    </form>
+
+  </div>
+</div>
+
+
+<!-- ── Result count ── -->
+<div class="container" style="padding-top: 24px; padding-bottom: 8px;">
+  <p style="font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 0.5px;">
+    {% if query %}
+      Results for <strong style="color: var(--navy);">"{{ query }}"</strong> —
+    {% endif %}
+    <strong style="color: var(--navy);">{{ products.count }}</strong>
+    piece{{ products.count|pluralize }} found
+  </p>
+</div>
+
+
+<!-- ── Product Grid ── -->
+<section style="padding: 12px 0 80px;">
+  <div class="container">
+
+    {% if products %}
+      <div class="row g-4">
+        {% for product in products %}
+          <div class="col-6 col-md-4 col-lg-3">
+            {% include 'products/_product_card.html' %}
+          </div>
+        {% endfor %}
+      </div>
+
+    {% else %}
+      <!-- Empty state when no products match the filter -->
+      <div style="text-align: center;
+                  padding: 80px 20px;
+                  border: 1px dashed rgba(201,168,76,0.3);">
+        <div style="font-size: 3rem; margin-bottom: 14px;">💎</div>
+        <h5 style="font-family: var(--serif);
+                   color: var(--navy);
+                   margin-bottom: 8px;">
+          No pieces found
+        </h5>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-bottom: 24px;">
+          Try a different search or browse all collections.
+        </p>
+        <a href="{% url 'products:product_list' %}"
+           class="btn-gold">
+          View All Collections
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- Pagination -->
+{% if products.has_other_pages %}
+  <div class="d-flex justify-content-center gap-2 mt-5">
+
+    <!-- Previous button -->
+    {% if products.has_previous %}
+      <a href="?page={{ products.previous_page_number }}
+               {% if query %}&q={{ query }}{% endif %}
+               {% if selected_cat %}&category={{ selected_cat }}{% endif %}
+               {% if sort %}&sort={{ sort }}{% endif %}"
+         style="padding: 10px 18px;
+                border: 1.5px solid var(--navy);
+                color: var(--navy);
+                text-decoration: none;
+                font-size: 0.72rem;
+                font-weight: 700;
+                letter-spacing: 1.5px;
+                transition: all 0.2s;"
+         onmouseover="this.style.background='var(--navy)';
+                      this.style.color='var(--gold)';"
+         onmouseout="this.style.background='transparent';
+                     this.style.color='var(--navy)';">
+        ← Prev
+      </a>
+    {% endif %}
+
+    <!-- Page numbers -->
+    {% for num in products.paginator.page_range %}
+      {% if products.number == num %}
+        <!-- Current page -->
+        <span style="padding: 10px 18px;
+                     background: var(--navy);
+                     color: var(--gold);
+                     font-size: 0.72rem;
+                     font-weight: 700;
+                     letter-spacing: 1.5px;">
+          {{ num }}
+        </span>
+      {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+        <!-- Nearby pages only (avoid 100 page buttons) -->
+        <a href="?page={{ num }}
+                 {% if query %}&q={{ query }}{% endif %}
+                 {% if selected_cat %}&category={{ selected_cat }}{% endif %}
+                 {% if sort %}&sort={{ sort }}{% endif %}"
+           style="padding: 10px 18px;
+                  border: 1.5px solid #ddd;
+                  color: var(--charcoal);
+                  text-decoration: none;
+                  font-size: 0.72rem;
+                  font-weight: 700;
+                  letter-spacing: 1.5px;
+                  transition: all 0.2s;"
+           onmouseover="this.style.borderColor='var(--navy)';"
+           onmouseout="this.style.borderColor='#ddd';">
+          {{ num }}
+        </a>
+      {% endif %}
+    {% endfor %}
+
+    <!-- Next button -->
+    {% if products.has_next %}
+      <a href="?page={{ products.next_page_number }}
+               {% if query %}&q={{ query }}{% endif %}
+               {% if selected_cat %}&category={{ selected_cat }}{% endif %}
+               {% if sort %}&sort={{ sort }}{% endif %}"
+         style="padding: 10px 18px;
+                border: 1.5px solid var(--navy);
+                color: var(--navy);
+                text-decoration: none;
+                font-size: 0.72rem;
+                font-weight: 700;
+                letter-spacing: 1.5px;
+                transition: all 0.2s;"
+         onmouseover="this.style.background='var(--navy)';
+                      this.style.color='var(--gold)';"
+         onmouseout="this.style.background='transparent';
+                     this.style.color='var(--navy)';">
+          Next →
+      </a>
+    {% endif %}
+
+  </div>
+
+  <!-- Page count info -->
+  <p style="text-align: center;
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 14px;
+            letter-spacing: 0.5px;">
+    Page {{ products.number }} of {{ products.paginator.num_pages }}
+    &nbsp;·&nbsp;
+    {{ products.paginator.count }} total pieces
+  </p>
+{% endif %}
+
+
+<!-- ── Bottom CTA ──
+     Shows when user finishes browsing.
+     Invites them to contact us for unlisted pieces.
+-->
+<section style="background: var(--cream-dark); padding: 60px 0;">
+  <div class="container text-center">
+    <p class="sec-label">Can't Find What You're Looking For?</p>
+    <h3 style="font-family: var(--serif);
+               font-size: 1.9rem;
+               color: var(--navy);
+               font-weight: 600;
+               margin-bottom: 10px;">
+      Talk to Our Expert
+    </h3>
+    <p style="color: var(--muted);
+              font-size: 0.85rem;
+              max-width: 420px;
+              margin: 0 auto 24px;
+              line-height: 1.8;">
+      We have a wider collection not listed online.
+      WhatsApp us and we'll bring options directly to your home.
+    </p>
+    <a href="https://wa.me/919618148380?text=Hi! I need help finding the right jewellery."
+       target="_blank"
+       class="btn-wa">
+      <i class="bi bi-whatsapp"></i> Ask on WhatsApp
+    </a>
+  </div>
+</section>
+
+{% endblock %}
